@@ -17,16 +17,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/blog', function (Request $request) {
-    return 'Bjr';
+
+Route::prefix('/blog')->name('blog.')->group(function() {
+    Route::get('/', function (Request $request) {
+        return [
+            "link" => \route('blog.show', ['slug' => 'post','id' => 1] ),
+        ];
+    })->name('index');
+
+    Route::get('/{slug}-{id}', function (string $slug, string $id, Request $request) {
+        return [
+            "slug" => $slug,
+            "id" => $id,
+        ];
+    })->where([
+        'id' => '[0-9]+',
+        'slug' => '[a-z0-9\-]+'
+    ])->name('show');;
 });
 
-Route::get('/blog/{slug}-{id}', function (string $slug, string $id, Request $request) {
-    return [
-        "slug" => $slug,
-        "id" => $id,
-    ];
-})->where([
-    'id' => '[0-9]+',
-    'slug' => '[a-z0-9\-]+'
-]);
