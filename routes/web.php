@@ -13,18 +13,34 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * @return View Returns the welcome view.
+ */
 Route::get('/', function () {
     return view('welcome');
 });
 
-
+/**
+ * Blog-related routes
+ */
 Route::prefix('/blog')->name('blog.')->group(function() {
+
+    /**
+     * @params Request $request The HTTP request object.
+     * @return array Returns an array with a link to a sample blog post.
+     */
     Route::get('/', function (Request $request) {
         return [
             "link" => \route('blog.show', ['slug' => 'post','id' => 1] ),
         ];
     })->name('index');
 
+    /**
+     * @params string $slug The slug of the blog post.
+     * @params string $id The ID of the blog post.
+     * @params Request $request The HTTP request object.
+     * @return array Returns an array containing the slug and ID of the blog post.
+     */
     Route::get('/{slug}-{id}', function (string $slug, string $id, Request $request) {
         return [
             "slug" => $slug,
