@@ -30,9 +30,7 @@ Route::prefix('/blog')->name('blog.')->group(function() {
      * @return array Returns an array with a link to a sample blog post.
      */
     Route::get('/', function (Request $request) {
-        return [
-            "link" => \route('blog.show', ['slug' => 'post','id' => 1] ),
-        ];
+        return \App\Models\Post::paginate(25);
     })->name('index');
 
     /**
@@ -42,10 +40,12 @@ Route::prefix('/blog')->name('blog.')->group(function() {
      * @return array Returns an array containing the slug and ID of the blog post.
      */
     Route::get('/{slug}-{id}', function (string $slug, string $id, Request $request) {
-        return [
-            "slug" => $slug,
-            "id" => $id,
-        ];
+        $post = \App\Models\Post::findOrFail($id);
+        if($post->slug !== $slug) {
+            return to_route('blog.show', ['slug'=> $post->slug, $id => $post->id]);
+        }
+       return $post;
+
     })->where([
         'id' => '[0-9]+',
         'slug' => '[a-z0-9\-]+'
