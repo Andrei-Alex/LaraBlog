@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FormPostRequest;
 use App\Http\Requests\PostFilterRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -23,9 +24,10 @@ class PostController extends Controller
      * @return Illuminate\View\View
      *   A paginated View.
      */
-    public function index(PostFilterRequest $request): View {
+    public function index(PostFilterRequest $request): View
+    {
 
-        return view('blog.index', [ 'posts' => Post::paginate(1) ]);
+        return view('blog.index', ['posts' => Post::paginate(1)]);
     }
 
     /**
@@ -36,14 +38,41 @@ class PostController extends Controller
      * @return Illuminate\View\View
      *   Either a redirect response to the correct slug if it's mismatched, or the Post model instance.
      */
-    public function show(string $slug, Post $post): \Illuminate\Http\RedirectResponse | View {
+    public function show(string $slug, Post $post): \Illuminate\Http\RedirectResponse|View
+    {
 
 
         if ($post->slug !== $slug) {
             return to_route('blog.show', ['slug' => $post->slug, 'id' => $post->id]);
         }
-        return view('blog.show', ['post'=> $post]);
+        return view('blog.show', ['post' => $post]);
 
+    }
+
+    public function create()
+    {
+        $post = new Post();
+        return view('blog.create', [
+            'post' => $post
+        ]);
+    }
+
+    public function store(FormPostRequest $request)
+    {
+        $post = Post::create($request->validated());
+        return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Added Successfully!');
+    }
+    public function edit(Post $post)
+    {
+        return view('blog.edit', [
+            'post' =>$post
+        ]);
+    }
+
+    public function update(Post $post, FormPostRequest $request)
+    {
+        $post->update($request->validated());
+        return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Updated Successfully!');
     }
 }
 
