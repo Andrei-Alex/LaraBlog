@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostFilterRequest;
 use App\Models\Post;
 use Illuminate\View\View;
 
@@ -18,10 +19,11 @@ class PostController extends Controller
     /**
      * Display a listing of the posts.
      *
-     * @return \Illuminate\Contracts\Pagination\Paginator
-     *   A paginator instance containing the posts, paginated.
+     * @return Illuminate\View\View
+     *   A paginated View.
      */
-    public function index(): View {
+    public function index(PostFilterRequest $request): View {
+
         return view('blog.index', [ 'posts' => Post::paginate(1) ]);
     }
 
@@ -30,7 +32,7 @@ class PostController extends Controller
      *
      * @param string $slug The slug of the post.
      * @param string $id The ID of the post.
-     * @return \Illuminate\Http\RedirectResponse|\App\Models\Post
+     * @return Illuminate\View\View
      *   Either a redirect response to the correct slug if it's mismatched, or the Post model instance.
      */
     public function show(string $slug, string $id): \Illuminate\Http\RedirectResponse | View {
