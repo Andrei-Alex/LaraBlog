@@ -24,9 +24,8 @@ class PostController extends Controller
      * @return Illuminate\View\View
      *   A paginated View.
      */
-    public function index(PostFilterRequest $request): View
+    public function index(): View
     {
-
         return view('blog.index', ['posts' => Post::paginate(1)]);
     }
 
