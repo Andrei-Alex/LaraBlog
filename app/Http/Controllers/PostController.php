@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostFilterRequest;
 use App\Models\Post;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 /**
@@ -35,8 +36,8 @@ class PostController extends Controller
      * @return Illuminate\View\View
      *   Either a redirect response to the correct slug if it's mismatched, or the Post model instance.
      */
-    public function show(string $slug, string $id): \Illuminate\Http\RedirectResponse | View {
-        $post = Post::findOrFail($id);
+    public function show(string $slug, Post $post): \Illuminate\Http\RedirectResponse | View {
+
 
         if ($post->slug !== $slug) {
             return to_route('blog.show', ['slug' => $post->slug, 'id' => $post->id]);

@@ -7,7 +7,7 @@
         <article>
             <h2>{{$post->title}}</h2>
             <p>{{$post->content}}</p>
-            <a href="{{route('blog.show', ['slug' => $post->slug, 'id' => $post->id]) }}">Read more</a>
+            <a href="{{route('blog.show', ['slug' => $post->slug, 'post' => $post->id]) }}">Read more</a>
         </article>
     @endforeach
     {{$posts->links()}}
