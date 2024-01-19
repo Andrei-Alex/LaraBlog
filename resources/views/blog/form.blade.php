@@ -1,6 +1,6 @@
     <form action="" method="post">
         @csrf
-        @method($post->id() ?'PATCH' : "POST")
+        @method($post->id?'PATCH' : "POST")
         <div class="form-group mt-3">
             <label for="title">Title</label>
             <input class="form-control" type="text" placeholder="Post title" name="title" value="{{old('title', $post->title)}}">
