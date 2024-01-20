@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\PostController;
+use \App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,12 @@ use \App\Http\Controllers\PostController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+/**
+ * @return View Returns the Auth Routes .
+ */
+Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
+Route::post('/login', [AuthController::class, 'auth']);
 
 /**
  * Blog-related routes
