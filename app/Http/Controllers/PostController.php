@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FormPostRequest;
-use App\Http\Requests\PostFilterRequest;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -27,12 +27,7 @@ class PostController extends Controller
      */
     public function index(): View
     {
-//        $post = Post::find(2);
-//        $post->tags()->createMany([
-//                ['name' => 'Tag 1'],
-//                ['name' => "Tag 2"]]
-//        );
-        return view('blog.index', ['posts' => Post::paginate(1)]);
+        return view('blog.index', ['posts' => Post::with('tags', 'category')->paginate(10)]);
     }
 
     /**
@@ -57,26 +52,32 @@ class PostController extends Controller
     {
         $post = new Post();
         return view('blog.create', [
-            'post' => $post
+            'post' => $post,
+            'categories' => Category::select('id', 'name')->get(),
+            'tags' => Tag::select('id', 'name')->get(),
         ]);
     }
 
     public function store(FormPostRequest $request): RedirectResponse
     {
         $post = Post::create($request->validated());
+        $post->tags()->sync($request->validated('tags'));
         return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Added Successfully!');
     }
 
-    public function edit(Post $post)
+    public function edit(Post $post): View
     {
         return view('blog.edit', [
-            'post' => $post
+            'post' => $post,
+            'categories' => Category::select('id', 'name')->get(),
+            'tags' => Tag::select('id', 'name')->get(),
         ]);
     }
 
     public function update(Post $post, FormPostRequest $request)
     {
         $post->update($request->validated());
+        $post->tags()->sync($request->validated('tags'));
         return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Updated Successfully!');
     }
 }
