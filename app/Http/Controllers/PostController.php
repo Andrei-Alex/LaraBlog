@@ -27,7 +27,11 @@ class PostController extends Controller
      */
     public function index(): View
     {
-        $post= Post::with('category')->get();
+//        $post = Post::find(2);
+//        $post->tags()->createMany([
+//                ['name' => 'Tag 1'],
+//                ['name' => "Tag 2"]]
+//        );
         return view('blog.index', ['posts' => Post::paginate(1)]);
     }
 
@@ -57,7 +61,7 @@ class PostController extends Controller
         ]);
     }
 
-    public function store(FormPostRequest $request) : RedirectResponse
+    public function store(FormPostRequest $request): RedirectResponse
     {
         $post = Post::create($request->validated());
         return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Added Successfully!');
