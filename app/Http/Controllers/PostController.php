@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FormPostRequest;
 use App\Http\Requests\PostFilterRequest;
+use App\Models\Category;
 use App\Models\Post;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 /**
@@ -26,6 +27,7 @@ class PostController extends Controller
      */
     public function index(): View
     {
+        $post= Post::with('category')->get();
         return view('blog.index', ['posts' => Post::paginate(1)]);
     }
 
@@ -40,7 +42,6 @@ class PostController extends Controller
     public function show(string $slug, Post $post): \Illuminate\Http\RedirectResponse|View
     {
 
-
         if ($post->slug !== $slug) {
             return to_route('blog.show', ['slug' => $post->slug, 'id' => $post->id]);
         }
@@ -48,7 +49,7 @@ class PostController extends Controller
 
     }
 
-    public function create()
+    public function create(): View
     {
         $post = new Post();
         return view('blog.create', [
@@ -56,15 +57,16 @@ class PostController extends Controller
         ]);
     }
 
-    public function store(FormPostRequest $request)
+    public function store(FormPostRequest $request) : RedirectResponse
     {
         $post = Post::create($request->validated());
         return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Added Successfully!');
     }
+
     public function edit(Post $post)
     {
         return view('blog.edit', [
-            'post' =>$post
+            'post' => $post
         ]);
     }
 
