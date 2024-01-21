@@ -1,7 +1,7 @@
 @php
-$routeName = request()->route()->getName();
+    $routeName = request()->route()->getName();
 @endphp
-<!doctype html>
+    <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,7 +17,7 @@ $routeName = request()->route()->getName();
     <style>
         @layer demo {
             button {
-                all:unset;
+                all: unset;
             }
         }
     </style>
@@ -28,7 +28,8 @@ $routeName = request()->route()->getName();
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Devloop</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -41,6 +42,22 @@ $routeName = request()->route()->getName();
                        href="{{route('blog.index')}}">Blog</a>
                 </li>
             </ul>
+            <div class="navbar-nav ms-auto mb-2 mb-lg-0">
+                @auth
+                    {{ \Illuminate\Support\Facades\Auth::user()->name }}
+                    <form class= "nav-item" action="{{route('auth.logout')}}" method="post">
+                        @method('delete')
+                        @csrf
+                        <button class="nav-link">Logout</button>
+                    </form>
+                @endauth
+                @guest
+                    <div class="nav-item">
+                        <a class="nav-link" href="{{route('auth.login')}}">Connection</a>
+                    </div>
+
+                @endguest
+            </div>
         </div>
     </div>
 </nav>
