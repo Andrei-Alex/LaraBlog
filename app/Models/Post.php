@@ -15,17 +15,16 @@ use Illuminate\Support\Facades\Storage;
  *
  * This class extends Laravel's Eloquent Model and uses the HasFactory trait,
  * enabling it to interact with the database and utilize factories for testing.
+ * It represents a blog post which can belong to a category and have multiple tags.
  *
- * Properties:
- *
+ * @property int $id The unique identifier for the post.
  * @property string $title The title of the post.
  * @property string $slug A slug for the post for URL-friendly identifiers.
  * @property string $content The content/body of the post.
- *
- * Attributes:
- * @property array $fillable Attributes that are mass assignable.
- * @property array $guarded Attributes that are not mass assignable.
- * @mixin IdeHelperPost
+ * @property int $category_id The foreign key for the associated category.
+ * @property string|null $image The file path of the post's image.
+ * @property-read Category $category The category this post belongs to.
+ * @property-read \Illuminate\Database\Eloquent\Collection|Tag[] $tags The tags associated with the post.
  */
 class Post extends Model
 {
@@ -34,7 +33,7 @@ class Post extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<string>
      */
     protected $fillable = [
         'title',
@@ -47,19 +46,37 @@ class Post extends Model
     /**
      * The attributes that aren't mass assignable.
      *
-     * @var array
+     * @var array<string>
      */
     protected $guarded = [];
-    public function category(): BelongsTo  {
+
+    /**
+     * Get the category that the post belongs to.
+     *
+     * @return BelongsTo
+     *   The relationship query builder for the category.
+     */
+    public function category(): BelongsTo {
         return $this->belongsTo(Category::class);
     }
 
-    public function tags(): BelongsToMany  {
+    /**
+     * The tags that belong to the post.
+     *
+     * @return BelongsToMany
+     *   The relationship query builder for tags.
+     */
+    public function tags(): BelongsToMany {
         return $this->belongsToMany(Tag::class);
     }
 
+    /**
+     * Get the URL of the post's image.
+     *
+     * @return string
+     *   The URL of the image if it exists, otherwise an empty string.
+     */
     public function imageUrl(): string {
-        return Storage::disk('public')->url($this->image);
+        return $this->image ? Storage::disk('public')->url($this->image) : '';
     }
-
 }
