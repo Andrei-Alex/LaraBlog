@@ -6,9 +6,8 @@ use App\Http\Requests\FormPostRequest;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -18,15 +17,15 @@ use Illuminate\View\View;
  * Controller for handling operations related to the Post model.
  *
  * This class extends Laravel's base Controller class. It provides methods
- * to handle listing and showing individual posts.
+ * to handle CRUD operations for blog posts.
  */
 class PostController extends Controller
 {
     /**
      * Display a listing of the posts.
      *
-     * @return Illuminate\View\View
-     *   A paginated View.
+     * @return View
+     * Returns a view with a paginated list of posts.
      */
     public function index(): View
     {
@@ -37,23 +36,26 @@ class PostController extends Controller
      * Display the specified post.
      *
      * @param string $slug The slug of the post.
-     * @param string $id The ID of the post.
-     * @return Illuminate\View\View
-     *   Either a redirect response to the correct slug if it's mismatched, or the Post model instance.
+     * @param Post $post The Post model instance.
+     * @return RedirectResponse|View
+     * Either a redirect response to the correct slug if it's mismatched, or the view with the Post model instance.
      */
-    public function show(string $slug, Post $post): \Illuminate\Http\RedirectResponse|View
+    public function show(string $slug, Post $post): View
     {
-
         if ($post->slug !== $slug) {
             return to_route('blog.show', ['slug' => $post->slug, 'id' => $post->id]);
         }
         return view('blog.show', ['post' => $post]);
-
     }
 
+    /**
+     * Show the form for creating a new post.
+     *
+     * @return View
+     * Returns the view for creating a new post.
+     */
     public function create(): View
     {
-
         $post = new Post();
         return view('blog.create', [
             'post' => $post,
@@ -62,6 +64,13 @@ class PostController extends Controller
         ]);
     }
 
+    /**
+     * Store a newly created post in storage.
+     *
+     * @param FormPostRequest $request The request containing post data.
+     * @return RedirectResponse
+     * Redirects to the newly created post with a success message.
+     */
     public function store(FormPostRequest $request): RedirectResponse
     {
         $post = Post::create($this->extractData(new Post(), $request));
@@ -69,6 +78,13 @@ class PostController extends Controller
         return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Added Successfully!');
     }
 
+    /**
+     * Show the form for editing the specified post.
+     *
+     * @param Post $post The Post model instance.
+     * @return View
+     * Returns the view for editing the specified post.
+     */
     public function edit(Post $post): View
     {
         return view('blog.edit', [
@@ -78,30 +94,40 @@ class PostController extends Controller
         ]);
     }
 
-
-    public function update(Post $post, FormPostRequest $request)
+    /**
+     * Update the specified post in storage.
+     *
+     * @param Post $post The Post model instance.
+     * @param FormPostRequest $request The request containing updated post data.
+     * @return RedirectResponse
+     * Redirects to the updated post with a success message.
+     */
+    public function update(Post $post, FormPostRequest $request): RedirectResponse
     {
-
         $post->update($this->extractData($post, $request));
         $post->tags()->sync($request->validated('tags'));
         return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Updated Successfully!');
     }
 
+    /**
+     * Extract and process data from the request.
+     *
+     * @param Post $post The Post model instance.
+     * @param FormPostRequest $request The request containing post data.
+     * @var UploadedFile|null $image
+     * @return array
+     * Returns an array of processed data.
+     */
     private function extractData(Post $post, FormPostRequest $request): array
     {
         $data = $request->validated();
-        /** @var UploadedFile|null $image */
-
         $image = $request->file('image');
-        if ($image === null || $image->getError()) {
-            return $data;
+        if ($image && !$image->getError()) {
+            if ($post->image) {
+                Storage::disk('public')->delete($post->image);
+            }
+            $data['image'] = $image->store('blog', 'public');
         }
-        if($post->image) {
-            Storage::disk('public')->delete($post->image);
-        }
-        $data['image'] = $image->store('blog', 'public');
         return $data;
-
     }
 }
-
