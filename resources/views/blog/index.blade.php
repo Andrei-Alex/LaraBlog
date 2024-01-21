@@ -15,6 +15,9 @@
                @endforeach
             @endif
             <p>{{$post->content}}</p>
+            @if($post->image)
+                <img style="width: 100%; height:250px; object-fit: cover" src="{{ $post->imageUrl()}}" alt="">
+            @endif
             <a href="{{route('blog.show', ['slug' => $post->slug, 'post' => $post->id]) }}">Read more</a>
         </article>
     @endforeach

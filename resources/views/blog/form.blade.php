@@ -1,4 +1,4 @@
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
     @csrf
     @method($post->id?'PATCH' : "POST")
     <div class="form-group mt-3">
@@ -6,6 +6,13 @@
         <input class="form-control" type="text" placeholder="Post title" name="title"
                value="{{old('title', $post->title)}}">
         @error('title')
+        {{$message}}
+        @enderror
+    </div>
+    <div class="form-group mt-3">
+        <label for="image">Image</label>
+        <input class="form-control" type="file" id="image" name="image">
+        @error('image')
         {{$message}}
         @enderror
     </div>
