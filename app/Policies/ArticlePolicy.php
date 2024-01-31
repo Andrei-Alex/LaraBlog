@@ -45,7 +45,8 @@ class ArticlePolicy
      */
     public function delete(User $user, Article $article): bool
     {
-        return $user->role === 'admin';
+       // return $user->role === 'admin';
+        return true;
     }
 
     /**

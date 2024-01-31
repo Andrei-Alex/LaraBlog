@@ -13,7 +13,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return view('crud/article/index', ['articles' => Article::paginate(10)]);
+        return view('crud/article/index', ['articles' =>  Article::withTrashed()->paginate(10)]);
     }
 
     /**
