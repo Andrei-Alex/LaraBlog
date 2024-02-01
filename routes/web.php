@@ -29,6 +29,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('article', ArticleController::class)->except(['show']);
-Route::patch('/article/{id}/restore', [ArticleController::class, 'restore'])->name('article.restore');
+Route::resource('dashboard/article', ArticleController::class)->except(['show']);
+Route::patch('dashboard/article/{id}/restore', [ArticleController::class, 'restore'])->name('article.restore');
 require __DIR__.'/auth.php';

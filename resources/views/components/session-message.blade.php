@@ -16,7 +16,7 @@
             @break
         @default
             bg-gray-100 text-gray-800
-    @endswitch p-4 mb-4 rounded">
+        @endswitch p-4 mb-4 rounded">
                 {{ $message }}
             </div>
         @endif
