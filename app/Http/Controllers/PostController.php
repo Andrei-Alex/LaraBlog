@@ -29,7 +29,7 @@ class PostController extends Controller
      */
     public function index(): View
     {
-        return view('blog.index', ['posts' => Post::with('tags', 'category')->paginate(10)]);
+        return view('crud/blog/index', ['posts' => Post::with('tags', 'category')->paginate(10)]);
     }
 
     /**
@@ -43,7 +43,7 @@ class PostController extends Controller
     public function show(string $slug, Post $post): View
     {
         if ($post->slug !== $slug) {
-            return to_route('blog.show', ['slug' => $post->slug, 'id' => $post->id]);
+            return to_route('crud/blog/show', ['slug' => $post->slug, 'id' => $post->id]);
         }
         return view('blog.show', ['post' => $post]);
     }
@@ -57,7 +57,7 @@ class PostController extends Controller
     public function create(): View
     {
         $post = new Post();
-        return view('blog.create', [
+        return view('crud/blog/create', [
             'post' => $post,
             'categories' => Category::select('id', 'name')->get(),
             'tags' => Tag::select('id', 'name')->get(),
@@ -75,7 +75,7 @@ class PostController extends Controller
     {
         $post = Post::create($this->extractData(new Post(), $request));
         $post->tags()->sync($request->validated('tags'));
-        return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Added Successfully!');
+        return redirect()->route('crud/blog/show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Added Successfully!');
     }
 
     /**
@@ -87,7 +87,7 @@ class PostController extends Controller
      */
     public function edit(Post $post): View
     {
-        return view('blog.edit', [
+        return view('crud/blog/edit', [
             'post' => $post,
             'categories' => Category::select('id', 'name')->get(),
             'tags' => Tag::select('id', 'name')->get(),
@@ -106,7 +106,7 @@ class PostController extends Controller
     {
         $post->update($this->extractData($post, $request));
         $post->tags()->sync($request->validated('tags'));
-        return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Updated Successfully!');
+        return redirect()->route('crud/blog/show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Updated Successfully!');
     }
 
     /**

@@ -20,7 +20,16 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('article.index')" :active="request()->routeIs('article.index')">
-                        {{ __('Article') }}
+                        {{ __('Articles') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('post.index')" :active="request()->routeIs('post.index')">
+                        {{ __('Posts') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('post.index')" :active="request()->routeIs('post.index')">
+                        {{ __('Users') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('post.index')" :active="request()->routeIs('post.index')">
+                        {{ __('Config') }}
                     </x-nav-link>
                 </div>
             </div>
