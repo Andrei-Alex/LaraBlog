@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use App\Models\Post;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -63,5 +62,11 @@ class ArticleController extends Controller
     {
         $article->delete();
         return to_route('article.index')->with('success', 'Deleted successfully');
+    }
+
+    public function restore(Article $article)
+    {
+        $article->restore();
+        return to_route('article.index')->with('success', 'Restored successfully');
     }
 }

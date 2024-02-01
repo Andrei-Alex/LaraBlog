@@ -30,4 +30,5 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('article', ArticleController::class)->except(['show']);
+Route::patch('/article/{id}/restore', [ArticleController::class, 'restore'])->name('article.restore');
 require __DIR__.'/auth.php';
