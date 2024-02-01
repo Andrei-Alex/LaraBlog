@@ -64,9 +64,10 @@ class ArticleController extends Controller
         return to_route('article.index')->with('success', 'Deleted successfully');
     }
 
-    public function restore(Article $article)
+    public function restore($id)
     {
+        $article = Article::onlyTrashed()->findOrFail($id);
         $article->restore();
-        return to_route('article.index')->with('success', 'Restored successfully');
+        return to_route('article.index')->with('success', 'Article restored successfully.');
     }
 }
