@@ -1,7 +1,3 @@
-@php
-    $route = request()->route()->getName();
-@endphp
-
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -20,7 +16,16 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('article.index')" :active="request()->routeIs('article.index')">
-                        {{ __('Article') }}
+                        {{ __('Articles') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('post.index')" :active="request()->routeIs('post.index')">
+                        {{ __('Posts') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('post.index')" :active="request()->routeIs('post.index')">
+                        {{ __('Users') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('post.index')" :active="request()->routeIs('post.index')">
+                        {{ __('Config') }}
                     </x-nav-link>
                 </div>
             </div>

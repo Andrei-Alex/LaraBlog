@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -29,6 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('article', ArticleController::class)->except(['show']);
-Route::patch('/article/{id}/restore', [ArticleController::class, 'restore'])->name('article.restore');
+
+Route::resource('post', \App\Http\Controllers\PostController::class)->except(['show']);
+Route::resource('dashboard/article', ArticleController::class)->except(['show']);
+Route::patch('dashboard/article/{id}/restore', [ArticleController::class, 'restore'])->name('article.restore');
 require __DIR__.'/auth.php';
