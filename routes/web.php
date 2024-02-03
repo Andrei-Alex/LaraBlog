@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,8 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+$idRegex = '[0-9]+';
+$slugRegex = '[0-9a-z\-]+';
+
 Route::get('/', function () {
-    return view('welcome');
+    if (Auth::check()) {
+        return redirect('/dashboard');
+    }
+    return redirect('/login');
 });
 
 Route::get('/dashboard', function () {
@@ -33,10 +38,6 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('/post', \App\Http\Controllers\PostController::class)->except(['show']);
 Route::patch('post/{id}/restore', [\App\Http\Controllers\PostController::class, 'restore'])->name('post.restore');
-
-$idRegex = '[0-9]+';
-$slugRegex = '[0-9a-z\-]+';
-
 Route::get('/post/{slug}/{post}', [\App\Http\Controllers\PostController::class, 'show'])
     ->name('post.show')
     ->where(['id' => $idRegex, 'slug' => $slugRegex]);

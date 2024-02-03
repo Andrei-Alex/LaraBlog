@@ -6,7 +6,6 @@ use App\Http\Requests\FormPostRequest;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
-use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -76,8 +75,13 @@ class PostController extends Controller
      */
     public function store(FormPostRequest $request): RedirectResponse
     {
-        $post = Post::create($this->extractData(new Post(), $request));
-        $post->tags()->sync($request->validated('tags'));
+        $data = $this->extractData(new Post(), $request);
+        $data['user_id'] = auth()->id();
+
+        $post = Post::create($data);
+        if ($request->filled('tags')) {
+            $post->tags()->sync($request->validated('tags'));
+        }
         return redirect()->route('post.show', ['slug' => $post->slug, 'post' => $post->id])->with([
             'messageType' => 'success',
             'message' => 'Created successfully!',
@@ -170,6 +174,11 @@ class PostController extends Controller
     {
         $this->authorize('update', $post);
         $post->update(['draft' => false]);
-        return redirect()->route('post.index')->with('success', 'Post publication status has been updated.');
+        $post->user->notify(new \App\Notifications\PostPublished($post));
+
+        return redirect()->route('post.index')->with([
+            'messageType' => 'success',
+            'message' => 'Post published successfully!',
+        ]);
     }
 }

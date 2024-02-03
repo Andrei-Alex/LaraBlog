@@ -46,7 +46,8 @@ class Post extends Model
         'content',
         'category_id',
         'image',
-        'draft'
+        'draft',
+        'user_id',
     ];
 
     /**
@@ -62,7 +63,8 @@ class Post extends Model
      * @return BelongsTo
      *   The relationship query builder for the category.
      */
-    public function category(): BelongsTo {
+    public function category(): BelongsTo
+    {
         return $this->belongsTo(Category::class);
     }
 
@@ -72,7 +74,8 @@ class Post extends Model
      * @return BelongsToMany
      *   The relationship query builder for tags.
      */
-    public function tags(): BelongsToMany {
+    public function tags(): BelongsToMany
+    {
         return $this->belongsToMany(Tag::class);
     }
 
@@ -82,7 +85,14 @@ class Post extends Model
      * @return string
      *   The URL of the image if it exists, otherwise an empty string.
      */
-    public function imageUrl(): string {
+    public function imageUrl(): string
+    {
         return $this->image ? Storage::disk('public')->url($this->image) : '';
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

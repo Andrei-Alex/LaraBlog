@@ -26,7 +26,8 @@ class ArticleController extends Controller
      * @return \Illuminate\View\View
      */
     public function create()
-    {  // Your implementation here
+    {
+
     }
 
     /**
