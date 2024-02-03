@@ -31,6 +31,17 @@ Route::middleware('auth')->group(function () {
 
 
 Route::resource('/post', \App\Http\Controllers\PostController::class)->except(['show']);
+
+$idRegex = '[0-9]+';
+$slugRegex = '[0-9a-z\-]+';
+
+Route::get('/post/{slug}/{post}', [\App\Http\Controllers\PostController::class, 'show'])
+    ->name('post.show')
+    ->where(['id' => $idRegex, 'slug' => $slugRegex]);
+Route::get('/post/publish', [\App\Http\Controllers\PostController::class, 'publish'])
+    ->name('post.publish');
+
+
 Route::resource('dashboard/article', ArticleController::class)->except(['show']);
 Route::patch('dashboard/article/{id}/restore', [ArticleController::class, 'restore'])->name('article.restore');
 require __DIR__.'/auth.php';

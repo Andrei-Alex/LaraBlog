@@ -5,7 +5,7 @@
         <button type="submit"
                 class="mb-5 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600 dark:focus:ring-indigo-700">
             @if($post->id)
-                Edit
+                Save
             @else
                 Create
             @endif
