@@ -76,8 +76,19 @@ class PostController extends Controller
      */
     public function store(FormPostRequest $request): RedirectResponse
     {
-        $post = Post::create($this->extractData(new Post(), $request));
-        $post->tags()->sync($request->validated('tags'));
+        $data = $this->extractData(new Post(), $request);
+
+        // Add user_id to the data array before creation
+        $data['user_id'] = auth()->id(); // Assign the authenticated user's ID
+
+        $post = Post::create($data);
+
+        // Since $post is now a persisted instance with 'user_id', there's no need to set it again
+
+        // Assuming $request->validated('tags') returns an array of tag IDs for synchronization
+        if ($request->filled('tags')) {
+            $post->tags()->sync($request->validated('tags'));
+        }
         return redirect()->route('post.show', ['slug' => $post->slug, 'post' => $post->id])->with([
             'messageType' => 'success',
             'message' => 'Created successfully!',
@@ -170,6 +181,8 @@ class PostController extends Controller
     {
         $this->authorize('update', $post);
         $post->update(['draft' => false]);
+        $post->user->notify(new \App\Notifications\PostPublished($post));
+
         return redirect()->route('post.index')->with('success', 'Post publication status has been updated.');
     }
 }
