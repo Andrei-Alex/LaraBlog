@@ -28,14 +28,22 @@
     <x-session-message/>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <a href="{{route('post.publish')}}"
-           class="text-white bg-blue-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
-            <i class="fa-regular fa-paper-plane"></i> Publish Post
-        </a>
-        <a href="{{route('post.edit', $post)}}"
-           class="ml-5 text-white bg-green-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
-            <i class="fa-regular fa-pen-to-square"></i> Edit Post
-        </a>
+        <div class="flex">
+            <form method="POST" action="{{ route('post.publish', $post) }}">
+                @csrf
+                @method('PATCH')
+                <!-- Hidden input to specify the "publish" action -->
+                <input type="hidden" name="publish" value="true">
+
+                <button type="submit" class="text-white bg-blue-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
+                    <i class="fa-regular fa-paper-plane"></i> Publish Post
+                </button>
+            </form>
+            <a href="{{route('post.edit', $post)}}"
+               class="ml-5 text-white bg-green-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
+                <i class="fa-regular fa-pen-to-square"></i> Edit Post
+            </a>
+        </div>
     </div>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-6">

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -29,7 +30,11 @@ use Illuminate\Support\Facades\Storage;
 class Post extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
+    protected $casts = [
+        'draft' => 'boolean',
+    ];
     /**
      * The attributes that are mass assignable.
      *
@@ -40,7 +45,8 @@ class Post extends Model
         'slug',
         'content',
         'category_id',
-        'image'
+        'image',
+        'draft'
     ];
 
     /**
