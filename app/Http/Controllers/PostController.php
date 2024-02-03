@@ -29,7 +29,7 @@ class PostController extends Controller
      */
     public function index(): View
     {
-        return view('crud/blog/index', ['posts' => Post::with('tags', 'category')->paginate(10)]);
+        return view('crud/post/index', ['posts' => Post::with('tags', 'category')->paginate(10)]);
     }
 
     /**
@@ -43,9 +43,9 @@ class PostController extends Controller
     public function show(string $slug, Post $post): View
     {
         if ($post->slug !== $slug) {
-            return to_route('crud/blog/show', ['slug' => $post->slug, 'id' => $post->id]);
+            return to_route('post.show', ['slug' => $post->slug, 'id' => $post->id]);
         }
-        return view('blog.show', ['post' => $post]);
+        return view('crud/post/show', ['post' => $post]);
     }
 
     /**
@@ -75,7 +75,10 @@ class PostController extends Controller
     {
         $post = Post::create($this->extractData(new Post(), $request));
         $post->tags()->sync($request->validated('tags'));
-        return redirect()->route('crud/post/show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Added Successfully!');
+        return redirect()->route('post.show', ['slug' => $post->slug, 'post' => $post->id])->with([
+            'messageType' => 'success',
+            'message' => 'Created successfully!',
+        ]);
     }
 
     /**
@@ -106,7 +109,11 @@ class PostController extends Controller
     {
         $post->update($this->extractData($post, $request));
         $post->tags()->sync($request->validated('tags'));
-        return redirect()->route('crud/post/show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Updated Successfully!');
+
+        return redirect()->route('post.show', ['slug' => $post->slug, 'post' => $post->id])->with([
+            'messageType' => 'success',
+            'message' => 'Updated successfully!',
+        ]);
     }
 
     /**
@@ -154,5 +161,9 @@ class PostController extends Controller
             'messageType' => 'success',
             'message' => 'Restored successfully!',
         ]);
+    }
+    public function publish()
+    {
+
     }
 }
