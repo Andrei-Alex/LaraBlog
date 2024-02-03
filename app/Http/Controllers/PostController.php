@@ -57,7 +57,7 @@ class PostController extends Controller
     public function create(): View
     {
         $post = new Post();
-        return view('crud/blog/create', [
+        return view('crud/post/create', [
             'post' => $post,
             'categories' => Category::select('id', 'name')->get(),
             'tags' => Tag::select('id', 'name')->get(),
@@ -75,7 +75,7 @@ class PostController extends Controller
     {
         $post = Post::create($this->extractData(new Post(), $request));
         $post->tags()->sync($request->validated('tags'));
-        return redirect()->route('crud/blog/show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Added Successfully!');
+        return redirect()->route('crud/post/show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Added Successfully!');
     }
 
     /**
@@ -87,7 +87,7 @@ class PostController extends Controller
      */
     public function edit(Post $post): View
     {
-        return view('crud/blog/edit', [
+        return view('crud/post/edit', [
             'post' => $post,
             'categories' => Category::select('id', 'name')->get(),
             'tags' => Tag::select('id', 'name')->get(),
@@ -106,7 +106,7 @@ class PostController extends Controller
     {
         $post->update($this->extractData($post, $request));
         $post->tags()->sync($request->validated('tags'));
-        return redirect()->route('crud/blog/show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Updated Successfully!');
+        return redirect()->route('crud/post/show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Updated Successfully!');
     }
 
     /**
@@ -129,5 +129,30 @@ class PostController extends Controller
             $data['image'] = $image->store('blog', 'public');
         }
         return $data;
+    }
+
+    public function destroy(Post $article)
+    {
+        $article->delete();
+        return to_route('post.index')->with([
+            'messageType' => 'success',
+            'message' => 'Deleted successfully!',
+        ]);
+    }
+
+    /**
+     * Restore the specified soft-deleted article.
+     *
+     * @param  string  $id Article ID
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function restore($id)
+    {
+        $article = Post::onlyTrashed()->findOrFail($id);
+        $article->restore();
+        return to_route('post.index')->with([
+            'messageType' => 'success',
+            'message' => 'Restored successfully!',
+        ]);
     }
 }
