@@ -13,9 +13,9 @@
     <x-session-message/>
 
 
-        @include('crud.post.form')
-
-
+    @include('crud.post.form')
 
 
 </x-app-layout>
+
+
