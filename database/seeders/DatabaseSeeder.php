@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
     {
         \App\Models\User::factory(1)->create([
             'email' => 'admin@mail.fr',
+            'role' => 'admin'
         ]);
         $this->call([
                 ArticleSeeder::class,
