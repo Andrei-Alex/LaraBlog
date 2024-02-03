@@ -40,7 +40,7 @@ $slugRegex = '[0-9a-z\-]+';
 Route::get('/post/{slug}/{post}', [\App\Http\Controllers\PostController::class, 'show'])
     ->name('post.show')
     ->where(['id' => $idRegex, 'slug' => $slugRegex]);
-Route::get('/post/publish', [\App\Http\Controllers\PostController::class, 'publish'])
+Route::patch('/post/publish/{post}', [\App\Http\Controllers\PostController::class, 'publish'])
     ->name('post.publish');
 
 

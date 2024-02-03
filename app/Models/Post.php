@@ -32,6 +32,9 @@ class Post extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $casts = [
+        'draft' => 'boolean',
+    ];
     /**
      * The attributes that are mass assignable.
      *
@@ -42,7 +45,8 @@ class Post extends Model
         'slug',
         'content',
         'category_id',
-        'image'
+        'image',
+        'draft'
     ];
 
     /**

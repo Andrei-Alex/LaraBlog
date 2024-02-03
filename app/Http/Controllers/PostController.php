@@ -6,6 +6,7 @@ use App\Http\Requests\FormPostRequest;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -165,8 +166,10 @@ class PostController extends Controller
         ]);
     }
 
-    public function publish()
+    public function publish(Post $post)
     {
-
+        $this->authorize('update', $post);
+        $post->update(['draft' => false]);
+        return redirect()->route('post.index')->with('success', 'Post publication status has been updated.');
     }
 }
