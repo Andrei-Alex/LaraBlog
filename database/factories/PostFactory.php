@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -28,7 +29,7 @@ class PostFactory extends Factory
             'slug' => Str::slug($title),
             'content' => $this->faker->paragraphs(asText: true),
             'category_id' => Category::inRandomOrder()->first()->id,
-
+            'user_id' => User::factory(),
             'image' => $this->faker->imageUrl(),
         ];
     }
