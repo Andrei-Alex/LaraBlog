@@ -5,7 +5,20 @@
         </h2>
     </x-slot>
 
+
     <x-session-message/>
+
+
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div>
+
+        </div>
+        <a href="{{route('post.create')}}"
+           class="text-white bg-green-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
+            <i class="fas fa-plus mr-2"></i>Add Post
+        </a>
+    </div>
+
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -150,7 +163,7 @@
 
 {{--@extends('base')--}}
 
-{{--@section('title', 'Home Blog')--}}
+
 {{--@section('content')--}}
 {{--<h1>My Blog</h1>--}}
 {{--    @foreach($posts as $post)--}}
