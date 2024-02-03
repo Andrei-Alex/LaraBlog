@@ -15,6 +15,10 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory(1)->create([
             'email' => 'admin@mail.fr',
         ]);
-        $this->call(ArticleSeeder::class);
+        $this->call([
+                ArticleSeeder::class,
+                CategorySeeder::class,
+                TagSeeder::class,
+                PostSeeder::class,]);
     }
 }
