@@ -1,5 +1,5 @@
 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-    <form action="" method="post" enctype="multipart/form-data">
+    <form action="{{route($post->exists ? 'post.update' : 'post.store', $post)}}" method="post" enctype="multipart/form-data">
         @csrf
         @method($post->id ? 'PATCH' : 'POST')
         <button type="submit"
@@ -34,42 +34,42 @@
                 </div>
             </div>
             <div class="mt-3 flex w-full">
+                <div class="w-8/12">
+                    <label for="category"
+                           class="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
+                    <select id="category" name="category_id"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500">
+                        <option value="">Select category</option>
+                        @foreach($categories as $category)
+                            <option
+                                value="{{$category->id}}" @selected(old('category_id', $post->category_id) == $category->id)>
+                                {{$category->name}}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('category_id')
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{$message}}</p>
+                    @enderror
+                </div>
+                @php
+                    $tagsId = $post->tags()->pluck('id')->toArray();
+                @endphp
+                <div class="w-4/12 ml-5">
+                    <label for="tag" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Tags</label>
+                    <select id="tag" name="tags[]" multiple
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500">
+                        @foreach($tags as $tag)
+                            <option value="{{$tag->id}}" @selected(in_array($tag->id, $tagsId))>
+                                {{$tag->name}}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('tags')
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{$message}}</p>
+                    @enderror
+                </div>
+            </div>
 
-            </div>
-            <div class="mt-3">
-                <label for="category"
-                       class="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
-                <select id="category" name="category_id"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500">
-                    <option value="">Select category</option>
-                    @foreach($categories as $category)
-                        <option
-                            value="{{$category->id}}" @selected(old('category_id', $post->category_id) == $category->id)>
-                            {{$category->name}}
-                        </option>
-                    @endforeach
-                </select>
-                @error('category_id')
-                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{$message}}</p>
-                @enderror
-            </div>
-            @php
-                $tagsId = $post->tags()->pluck('id')->toArray();
-            @endphp
-            <div class="mt-3">
-                <label for="tag" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Tags</label>
-                <select id="tag" name="tags[]" multiple
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500">
-                    @foreach($tags as $tag)
-                        <option value="{{$tag->id}}" @selected(in_array($tag->id, $tagsId))>
-                            {{$tag->name}}
-                        </option>
-                    @endforeach
-                </select>
-                @error('tags')
-                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{$message}}</p>
-                @enderror
-            </div>
             <div class="mt-3">
                 <label for="slug" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Slug</label>
                 <input type="text" name="slug" placeholder="Post slug" value="{{ old('slug', $post->slug) }}"
@@ -80,7 +80,7 @@
             </div>
             <div class="mt-3">
                 <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Content</label>
-                <textarea name="content" placeholder="Content title..."
+                <textarea rows="10" name="content" placeholder="Content title..."
                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500">{{ old('content', $post->content) }}</textarea>
                 @error('content')
                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{$message}}</p>
@@ -90,4 +90,3 @@
     </form>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>

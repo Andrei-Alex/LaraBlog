@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::resource('post', \App\Http\Controllers\PostController::class)->except(['show']);
+Route::resource('/post', \App\Http\Controllers\PostController::class)->except(['show']);
 Route::resource('dashboard/article', ArticleController::class)->except(['show']);
 Route::patch('dashboard/article/{id}/restore', [ArticleController::class, 'restore'])->name('article.restore');
 require __DIR__.'/auth.php';

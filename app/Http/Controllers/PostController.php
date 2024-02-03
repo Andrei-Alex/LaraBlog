@@ -75,7 +75,7 @@ class PostController extends Controller
     {
         $post = Post::create($this->extractData(new Post(), $request));
         $post->tags()->sync($request->validated('tags'));
-        return redirect()->route('crud/post/show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post Added Successfully!');
+        return redirect()->route('post.index')->with('success', 'Post Added Successfully!');
     }
 
     /**
