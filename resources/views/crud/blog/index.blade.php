@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <x-session-message />
+    <x-session-message/>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -22,6 +22,12 @@
                             </th>
                             <th class="px-5 py-3 border-b-2 border-gray-700 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
                                 Content
+                            </th>
+                            <th class="px-5 py-3 border-b-2 border-gray-700 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                                Tags
+                            </th>
+                            <th class="px-5 py-3 border-b-2 border-gray-700 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                                Category
                             </th>
                             <th class="px-5 py-3 border-b-2 border-gray-700 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
                                 Edit
@@ -64,6 +70,30 @@
                                 ">
                                     {{$post->content}}
                                 </td>
+                                <td class="px-5 py-5 border-b border-gray-700 text-sm
+                                @if ($post->deleted_at)
+                                    text-gray-500
+                                    @else
+                                    text-gray-300
+                                @endif
+                                ">
+                                    @foreach($post->tags as $tag )
+                                        <div> {{$tag['name']}}
+                                            </br>
+                                        </div>
+                                    @endforeach
+                                </td>
+
+                                <td class="px-5 py-5 border-b border-gray-700 text-sm
+                                @if ($post->deleted_at)
+                                    text-gray-500
+                                    @else
+                                    text-gray-300
+                                @endif
+                                ">
+                                    {{$post->category['name']}}
+                                </td>
+
                                 <td class="px-5 py-5 border-b border-gray-700 text-sm
                                 @if ($post->deleted_at)
                                     text-gray-500
@@ -116,16 +146,6 @@
 
 
 </x-app-layout>
-
-
-
-
-
-
-
-
-
-
 
 
 {{--@extends('base')--}}
