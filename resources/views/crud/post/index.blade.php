@@ -1,18 +1,38 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __("Blog Post Panel")}}
-        </h2>
-    </x-slot>
+        <div class="flex justify-between items-center space-x-4">
 
+
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __("Blog Post Panel")}}
+            </h2>
+            <div>
+                <nav >
+                    <ul class="flex space-x-4">
+                        <li>
+                            <a href="{{route('post.create')}}"
+                               class="text-white bg-purple-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
+                                Categories
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{route('post.create')}}"
+                               class="text-white bg-purple-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
+                                Tags
+                            </a>
+                        </li>
+                    </ul>
+
+                </nav>
+            </div>
+
+
+        </div>
+    </x-slot>
 
     <x-session-message/>
 
-
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div>
-
-        </div>
         <a href="{{route('post.create')}}"
            class="text-white bg-green-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
             <i class="fas fa-plus mr-2"></i>Add Post
@@ -29,9 +49,6 @@
                         <tr>
                             <th class="px-5 py-3 border-b-2 border-gray-700 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
                                 Title
-                            </th>
-                            <th class="px-5 py-3 border-b-2 border-gray-700 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                                Subtitle
                             </th>
                             <th class="px-5 py-3 border-b-2 border-gray-700 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
                                 Content
@@ -72,16 +89,7 @@
                                     text-gray-300
                                 @endif
                                 ">
-                                    {{$post->subtitle}}
-                                </td>
-                                <td class="px-5 py-5 border-b border-gray-700 text-sm
-                                @if ($post->deleted_at)
-                                    text-gray-500
-                                    @else
-                                    text-gray-300
-                                @endif
-                                ">
-                                    {{$post->content}}
+                                    {{Str::limit($post->content, 128, '...')}}
                                 </td>
                                 <td class="px-5 py-5 border-b border-gray-700 text-sm
                                 @if ($post->deleted_at)
@@ -156,34 +164,4 @@
             </div>
         </div>
     </div>
-
-
 </x-app-layout>
-
-
-{{--@extends('base')--}}
-
-
-{{--@section('content')--}}
-{{--<h1>My Blog</h1>--}}
-{{--    @foreach($posts as $post)--}}
-{{--        <post>--}}
-{{--            <h2>{{$post->title}}</h2>--}}
-{{--            @if($post->category)--}}
-{{--            <p class="small"> Category: <strong>{{$post?->category->name}}</strong></p>--}}
-{{--            @endif--}}
-{{--            @if(!$post->tags->isEmpty())--}}
-{{--               @foreach($post->tags as $tag)--}}
-{{--                   <span class="badge bg-secondary">{{ $tag->name }}</span>--}}
-{{--               @endforeach--}}
-{{--            @endif--}}
-{{--            <p>{{$post->content}}</p>--}}
-{{--            @if($post->image)--}}
-{{--                <img style="width: 100%; height:250px; object-fit: cover" src="{{ $post->imageUrl()}}" alt="">--}}
-{{--            @endif--}}
-{{--            <a href="{{route('blog.show', ['slug' => $post->slug, 'post' => $post->id]) }}">Read more</a>--}}
-{{--        </post>--}}
-{{--    @endforeach--}}
-{{--    {{$posts->links()}}--}}
-{{--@endsection--}}
-

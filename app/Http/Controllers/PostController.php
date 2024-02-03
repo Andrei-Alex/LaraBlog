@@ -29,7 +29,7 @@ class PostController extends Controller
      */
     public function index(): View
     {
-        return view('crud/blog/index', ['posts' => Post::with('tags', 'category')->paginate(10)]);
+        return view('crud/post/index', ['posts' => Post::with('tags', 'category')->paginate(10)]);
     }
 
     /**
@@ -43,7 +43,7 @@ class PostController extends Controller
     public function show(string $slug, Post $post): View
     {
         if ($post->slug !== $slug) {
-            return to_route('crud/blog/show', ['slug' => $post->slug, 'id' => $post->id]);
+            return to_route('crud/post/show', ['slug' => $post->slug, 'id' => $post->id]);
         }
         return view('blog.show', ['post' => $post]);
     }

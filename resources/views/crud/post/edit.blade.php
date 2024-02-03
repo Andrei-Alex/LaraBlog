@@ -2,6 +2,6 @@
 
 @section('title', 'Update article')
 @section('content')
-    @include('crud.blog.form')
+    @include('crud.post.form')
 @endsection
 
