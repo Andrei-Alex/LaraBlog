@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +32,7 @@ Route::middleware('auth')->group(function () {
 
 
 Route::resource('/post', \App\Http\Controllers\PostController::class)->except(['show']);
+Route::patch('post/{id}/restore', [\App\Http\Controllers\PostController::class, 'restore'])->name('post.restore');
 
 $idRegex = '[0-9]+';
 $slugRegex = '[0-9a-z\-]+';
@@ -44,4 +46,5 @@ Route::get('/post/publish', [\App\Http\Controllers\PostController::class, 'publi
 
 Route::resource('dashboard/article', ArticleController::class)->except(['show']);
 Route::patch('dashboard/article/{id}/restore', [ArticleController::class, 'restore'])->name('article.restore');
+
 require __DIR__.'/auth.php';

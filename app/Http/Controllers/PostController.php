@@ -29,7 +29,9 @@ class PostController extends Controller
      */
     public function index(): View
     {
-        return view('crud/post/index', ['posts' => Post::with('tags', 'category')->paginate(10)]);
+        return view('crud/post/index', [
+            'posts' => Post::with(['tags', 'category'])->withTrashed()->paginate(10)
+        ]);
     }
 
     /**
@@ -121,9 +123,9 @@ class PostController extends Controller
      *
      * @param Post $post The Post model instance.
      * @param FormPostRequest $request The request containing post data.
-     * @var UploadedFile|null $image
      * @return array
      * Returns an array of processed data.
+     * @var UploadedFile|null $image
      */
     private function extractData(Post $post, FormPostRequest $request): array
     {
@@ -138,9 +140,9 @@ class PostController extends Controller
         return $data;
     }
 
-    public function destroy(Post $article)
+    public function destroy(Post $post)
     {
-        $article->delete();
+        $post->delete();
         return to_route('post.index')->with([
             'messageType' => 'success',
             'message' => 'Deleted successfully!',
@@ -150,18 +152,19 @@ class PostController extends Controller
     /**
      * Restore the specified soft-deleted article.
      *
-     * @param  string  $id Article ID
+     * @param string $id Article ID
      * @return \Illuminate\Http\RedirectResponse
      */
     public function restore($id)
     {
-        $article = Post::onlyTrashed()->findOrFail($id);
-        $article->restore();
+        $post = Post::onlyTrashed()->findOrFail($id);
+        $post->restore();
         return to_route('post.index')->with([
             'messageType' => 'success',
             'message' => 'Restored successfully!',
         ]);
     }
+
     public function publish()
     {
 
