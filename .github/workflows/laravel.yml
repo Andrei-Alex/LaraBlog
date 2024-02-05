@@ -20,16 +20,18 @@ jobs:
         extensions: mbstring, xml, ctype, iconv, intl
         coverage: none
 
-    - name: Cache Composer dependencies
-      uses: actions/cache@v2
+    - name: Install Node.js
+      uses: actions/setup-node@v2
       with:
-        path: vendor
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-composer-
+        node-version: '14'
 
     - name: Install Dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
+      run: |
+        composer install --prefer-dist --no-progress --no-suggest
+        npm install
+
+    - name: Compile Frontend Assets
+      run: npm run build # Or `npm run prod` based on your script configuration
 
     - name: Copy .env
       run: cp .env.example .env
@@ -50,5 +52,5 @@ jobs:
     - name: Run Migrations
       run: php artisan migrate
 
-    - name: Execute tests
+    - name: Execute tests (PHPUnit)
       run: vendor/bin/phpunit
