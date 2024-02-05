@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use \App\Notifications\PostPublished;
 
 /**
  * Class PostController
@@ -139,7 +140,7 @@ class PostController extends Controller
         return $data;
     }
 
-    public function destroy(Post $post)
+    public function destroy(Post $post): RedirectResponse
     {
         $post->delete();
         return to_route('post.index')->with('success', 'Deleted successfully!');
@@ -151,18 +152,18 @@ class PostController extends Controller
      * @param string $id Article ID
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function restore($id)
+    public function restore($id): RedirectResponse
     {
         $post = Post::onlyTrashed()->findOrFail($id);
         $post->restore();
         return to_route('post.index')->with('success', 'Restored successfully!');
     }
 
-    public function publish(Post $post)
+    public function publish(Post $post): RedirectResponse
     {
         $this->authorize('update', $post);
         $post->update(['draft' => false]);
-        $post->user->notify(new \App\Notifications\PostPublished($post));
+        $post->user->notify(new PostPublished($post));
 
         return redirect()->route('post.index')->with('success', 'Post published successfully!');
     }
