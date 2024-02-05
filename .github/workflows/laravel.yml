@@ -7,8 +7,9 @@ on:
     branches: [ main ]
 
 jobs:
-  setup:
+  laravel-test:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v2
 
@@ -19,18 +20,16 @@ jobs:
         extensions: mbstring, xml, ctype, iconv, intl
         coverage: none
 
-    - name: Install Composer Dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
+    - name: Cache Composer dependencies
+      uses: actions/cache@v2
       with:
-        node-version: '14'
+        path: vendor
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
 
-    - name: Install Yarn dependencies and build
-      run: |
-        yarn install
-        yarn run build
+    - name: Install Dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
 
     - name: Copy .env
       run: cp .env.example .env
@@ -50,17 +49,6 @@ jobs:
 
     - name: Run Migrations
       run: php artisan migrate
-
-  test:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Set up PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.1'
 
     - name: Execute tests
       run: vendor/bin/phpunit
