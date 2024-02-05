@@ -7,8 +7,11 @@ on:
     branches: [ main ]
 
 jobs:
-  laravel-test:
+  setup:
     runs-on: ubuntu-latest
+
+    outputs:
+      cache-key: ${{ steps.cache-keys.outputs.key }}
 
     steps:
     - uses: actions/checkout@v2
@@ -20,18 +23,71 @@ jobs:
         extensions: mbstring, xml, ctype, iconv, intl
         coverage: none
 
-    - name: Install Node.js
+    - name: Cache Composer Dependencies
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+
+    - name: Install Composer Dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'
+        node-version: '20'
 
-    - name: Install Dependencies
-      run: |
-        composer install --prefer-dist --no-progress --no-suggest
-        npm install
+    - name: Cache Node Modules
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: ${{ runner.os }}-node-
+
+    - name: Install Node Dependencies
+      run: npm install
 
     - name: Compile Frontend Assets
-      run: npm run build # Or `npm run prod` based on your script configuration
+      run: npm run build
+
+    - name: Prepare Environment
+      run: |
+        cp .env.example .env
+        php artisan key:generate
+        chmod -R 777 storage bootstrap/cache
+        touch database/database.sqlite
+        echo "DB_CONNECTION=sqlite" >> .env
+        echo "DB_DATABASE=${{ github.workspace }}/database/database.sqlite" >> .env
+        echo "DB_FOREIGN_KEYS=true" >> .env
+
+    - name: Run Migrations
+      run: php artisan migrate
+
+  run-tests:
+    needs: setup
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'
+
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+    - name: Cache Composer Dependencies
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ needs.setup.outputs.cache-key }}
+
+    - name: Install Composer Dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
 
     - name: Copy .env
       run: cp .env.example .env
@@ -42,15 +98,5 @@ jobs:
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
 
-    - name: Configure Database
-      run: |
-        touch database/database.sqlite
-        echo "DB_CONNECTION=sqlite" >> .env
-        echo "DB_DATABASE=${{ github.workspace }}/database/database.sqlite" >> .env
-        echo "DB_FOREIGN_KEYS=true" >> .env
-
-    - name: Run Migrations
-      run: php artisan migrate
-
-    - name: Execute tests (PHPUnit)
+    - name: Run Tests (PHPUnit)
       run: vendor/bin/phpunit
