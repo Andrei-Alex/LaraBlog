@@ -82,10 +82,7 @@ class PostController extends Controller
         if ($request->filled('tags')) {
             $post->tags()->sync($request->validated('tags'));
         }
-        return redirect()->route('post.show', ['slug' => $post->slug, 'post' => $post->id])->with([
-            'messageType' => 'success',
-            'message' => 'Created successfully!',
-        ]);
+        return redirect()->route('post.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Created successfully!');
     }
 
     /**
@@ -117,10 +114,7 @@ class PostController extends Controller
         $post->update($this->extractData($post, $request));
         $post->tags()->sync($request->validated('tags'));
 
-        return redirect()->route('post.show', ['slug' => $post->slug, 'post' => $post->id])->with([
-            'messageType' => 'success',
-            'message' => 'Updated successfully!',
-        ]);
+        return redirect()->route('post.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Updated successfully!');
     }
 
     /**
@@ -148,10 +142,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return to_route('post.index')->with([
-            'messageType' => 'success',
-            'message' => 'Deleted successfully!',
-        ]);
+        return to_route('post.index')->with('success', 'Deleted successfully!');
     }
 
     /**
@@ -164,10 +155,7 @@ class PostController extends Controller
     {
         $post = Post::onlyTrashed()->findOrFail($id);
         $post->restore();
-        return to_route('post.index')->with([
-            'messageType' => 'success',
-            'message' => 'Restored successfully!',
-        ]);
+        return to_route('post.index')->with('success', 'Restored successfully!');
     }
 
     public function publish(Post $post)
@@ -176,9 +164,6 @@ class PostController extends Controller
         $post->update(['draft' => false]);
         $post->user->notify(new \App\Notifications\PostPublished($post));
 
-        return redirect()->route('post.index')->with([
-            'messageType' => 'success',
-            'message' => 'Post published successfully!',
-        ]);
+        return redirect()->route('post.index')->with('success', 'Post published successfully!');
     }
 }
