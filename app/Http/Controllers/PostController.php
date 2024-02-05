@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use \App\Notifications\PostPublished;
 
 /**
  * Class PostController
@@ -82,10 +83,7 @@ class PostController extends Controller
         if ($request->filled('tags')) {
             $post->tags()->sync($request->validated('tags'));
         }
-        return redirect()->route('post.show', ['slug' => $post->slug, 'post' => $post->id])->with([
-            'messageType' => 'success',
-            'message' => 'Created successfully!',
-        ]);
+        return redirect()->route('post.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Created successfully!');
     }
 
     /**
@@ -117,10 +115,7 @@ class PostController extends Controller
         $post->update($this->extractData($post, $request));
         $post->tags()->sync($request->validated('tags'));
 
-        return redirect()->route('post.show', ['slug' => $post->slug, 'post' => $post->id])->with([
-            'messageType' => 'success',
-            'message' => 'Updated successfully!',
-        ]);
+        return redirect()->route('post.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Updated successfully!');
     }
 
     /**
@@ -145,13 +140,10 @@ class PostController extends Controller
         return $data;
     }
 
-    public function destroy(Post $post)
+    public function destroy(Post $post): RedirectResponse
     {
         $post->delete();
-        return to_route('post.index')->with([
-            'messageType' => 'success',
-            'message' => 'Deleted successfully!',
-        ]);
+        return to_route('post.index')->with('success', 'Deleted successfully!');
     }
 
     /**
@@ -160,25 +152,19 @@ class PostController extends Controller
      * @param string $id Article ID
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function restore($id)
+    public function restore($id): RedirectResponse
     {
         $post = Post::onlyTrashed()->findOrFail($id);
         $post->restore();
-        return to_route('post.index')->with([
-            'messageType' => 'success',
-            'message' => 'Restored successfully!',
-        ]);
+        return to_route('post.index')->with('success', 'Restored successfully!');
     }
 
-    public function publish(Post $post)
+    public function publish(Post $post): RedirectResponse
     {
         $this->authorize('update', $post);
         $post->update(['draft' => false]);
-        $post->user->notify(new \App\Notifications\PostPublished($post));
+        $post->user->notify(new PostPublished($post));
 
-        return redirect()->route('post.index')->with([
-            'messageType' => 'success',
-            'message' => 'Post published successfully!',
-        ]);
+        return redirect()->route('post.index')->with('success', 'Post published successfully!');
     }
 }

@@ -18,7 +18,7 @@ class SessionMessage extends Component
      *
      * @var string|null
      */
-    public string|null $message;
+    public ?string $message = null;
 
     /**
      * The type of message, which determines styling, fetched from the session.
@@ -26,7 +26,7 @@ class SessionMessage extends Component
      *
      * @var string|null
      */
-    public string|null $type;
+    public ?string $type = null;
 
     /**
      * Create a new SessionMessage component instance.
@@ -35,9 +35,22 @@ class SessionMessage extends Component
      */
     public function __construct()
     {
-        $this->message = session('message');
-        $this->type = session('messageType', 'info');
+        // Assuming 'success', 'error', 'info', etc., are used as direct keys in the session.
+        $messageTypes = ['success', 'error', 'info', 'warning']; // Extend this list as needed.
+
+        foreach ($messageTypes as $type) {
+            if (session()->has($type)) {
+                $this->message = session($type);
+                $this->type = $type;
+                break; // Stop once a message is found.
+            }
+        }
+        if (is_null($this->message)) {
+            $this->message = session('message');
+            $this->type = session('messageType', 'info');
+        }
     }
+
 
     /**
      * Get the view that represents the component.
