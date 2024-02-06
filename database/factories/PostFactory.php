@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 /**
@@ -23,6 +24,9 @@ class PostFactory extends Factory
     public function definition()
     {
         $title = $this->faker->sentence;
+        $directory = storage_path('app/public/blog');
+        $files = File::files($directory);
+        $imageFile = $files[rand(0, count($files) - 1)];
 
         return [
             'title' => $title,
@@ -30,7 +34,7 @@ class PostFactory extends Factory
             'content' => $this->faker->paragraphs(asText: true),
             'category_id' => Category::inRandomOrder()->first()->id,
             'user_id' => User::factory(),
-            'image' => $this->faker->imageUrl(),
+            'image' => 'blog/' . $imageFile->getFilename(),
         ];
     }
 }
