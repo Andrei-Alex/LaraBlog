@@ -18,7 +18,8 @@
                 <!-- Hidden input to specify the "publish" action -->
                 <input type="hidden" name="publish" value="true">
 
-                <button type="submit" class="text-white bg-blue-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
+                <button type="submit"
+                        class="text-white bg-blue-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
                     <i class="fa-regular fa-paper-plane"></i> Publish Post
                 </button>
             </form>
@@ -29,9 +30,8 @@
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-6">
-        <div
-            class="block p-6 bg-white border border-gray-200 rounded-lg shadow-lg hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+    <x-crud-card>
+
             @if($post->image)
                 <img class="rounded-md mb-4 w-full object-cover h-48" src="{{ asset('storage/' . $post->image) }}"
                      alt="Post Image">
@@ -59,8 +59,8 @@
             <div class="text-gray-700 dark:text-gray-300 text-sm">
                 {!! nl2br(e($post->content)) !!}
             </div>
-        </div>
-    </div>
+
+    </x-crud-card>
 
 </x-app-layout>
 
