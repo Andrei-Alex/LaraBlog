@@ -1,0 +1,37 @@
+.alert-container {
+    @apply py-12;
+    > div:first-of-type {
+        @apply max-w-7xl mx-auto sm:px-6 lg:px-8;
+    }
+}
+.alert-hover {
+    @apply transition-transform duration-200 hover:scale-105;
+}
+.alert-success {
+    @apply bg-green-100 text-green-800;
+    @apply alert-hover;
+}
+.alert-error {
+    @apply bg-red-100 text-red-800;
+    @apply alert-hover;
+}
+.alert-warning {
+    @apply bg-yellow-100 text-yellow-800;
+    @apply alert-hover;
+}
+.alert-info {
+    @apply bg-yellow-100 text-yellow-800;
+    @apply alert-hover;
+}
+.alert-default {
+    @apply bg-gray-100 text-gray-800;
+    @apply alert-hover;
+}
+.alert-spacing {
+    @apply p-4 mb-4 rounded;
+    @apply alert-hover;
+}
+
+
+
+

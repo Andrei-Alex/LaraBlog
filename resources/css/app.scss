@@ -1,8 +1,10 @@
-
 @import "@fortawesome/fontawesome-free/css/all.min.css";
-@import "tom-select";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import "tom-select";
+@import "alerts";
 
 
