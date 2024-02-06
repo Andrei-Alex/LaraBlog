@@ -1,32 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center space-x-4">
-
-
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __("Blog Post Panel")}}
             </h2>
             <div>
-                <nav >
-                    <ul class="flex space-x-4">
-                        <li>
-                            <a href="{{route('post.create')}}"
-                               class="text-white bg-purple-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
-                                Categories
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{route('post.create')}}"
-                               class="text-white bg-purple-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
-                                Tags
-                            </a>
-                        </li>
-                    </ul>
-
-                </nav>
+                @include('shared.secondary-post-nav')
             </div>
-
-
         </div>
     </x-slot>
 
