@@ -1,4 +1,17 @@
-<a href="{{ $href }}" class="inline-block font-medium py-2 px-4 transition ease-in-out duration-150 {{ $buttonClass }} {{ $roundedClass }}">
+<a href="{{ $href }}"
+   class="inline-block font-medium py-2 px-4 transition ease-in-out duration-150
+   {{ $buttonClass }}
+   @if ($disabled)
+   bg-gray-500 hover:bg-gray-500 cursor-not-allowed
+   @else
+   hover:scale-105
+   @endif
+    {{ $roundedClass }}
+   "
+   @if ($disabled)
+       onclick="event.preventDefault();" aria-disabled="true"
+    @endif
+>
     {{ $text }}
 </a>
 

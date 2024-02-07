@@ -12,17 +12,18 @@
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="flex">
-            <form method="POST" action="{{ route('post.publish', $post) }}">
-                @csrf
-                @method('PATCH')
-                <!-- Hidden input to specify the "publish" action -->
-                <input type="hidden" name="publish" value="true">
+            @if($post->draft)
+                <form method="POST" action="{{ route('post.publish', $post) }}">
+                    @csrf
+                    @method('PATCH')
+                    <input type="hidden" name="publish" value="true">
 
-                <button type="submit"
-                        class="text-white bg-blue-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
-                    <i class="fa-regular fa-paper-plane"></i> Publish Post
-                </button>
-            </form>
+                    <button type="submit"
+                            class="text-white bg-blue-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
+                        <i class="fa-regular fa-paper-plane"></i> Publish Post
+                    </button>
+                </form>
+            @endif
             <a href="{{route('post.edit', $post)}}"
                class="ml-5 text-white bg-green-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
                 <i class="fa-regular fa-pen-to-square"></i> Edit Post

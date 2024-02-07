@@ -10,6 +10,17 @@
                 Create
             @endif
         </button>
+        @if($post->draft)
+            <form method="POST" action="{{ route('post.publish', $post) }}">
+                @csrf
+                @method('PATCH')
+                <input type="hidden" name="publish" value="true">
+                <button type="submit"
+                        class="mb-5 text-white bg-blue-500 hover:bg-blue-700 font-medium py-2 px-4 text-sm rounded transition ease-in-out duration-150">
+                    <i class="fa-regular fa-paper-plane"></i>  Publish
+                </button>
+            </form>
+        @endif
 
         <div
             class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-800">
