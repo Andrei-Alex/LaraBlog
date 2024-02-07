@@ -27,12 +27,13 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '20'
+        cache: 'yarn'
 
-    - name: Install Node dependencies
-      run: npm install
+    - name: Install Yarn dependencies
+      run: yarn install
 
-    - name: Build assets
-      run: npm run build
+    - name: Build assets with Yarn
+      run: yarn run build
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
@@ -68,11 +69,19 @@ jobs:
         cp .env.example .env
         php artisan key:generate
         chmod -R 777 storage bootstrap/cache
+        mkdir -p storage/app/public/blog
         touch database/database.sqlite
         echo "DB_CONNECTION=sqlite" >> .env
         echo "DB_DATABASE=${{ github.workspace }}/database/database.sqlite" >> .env
         echo "DB_FOREIGN_KEYS=true" >> .env
         php artisan migrate
+
+    # Ensure test images are copied only if the directory exists
+    - name: Copy test images to storage
+      run: |
+        if [ -d "tests/Fixtures/images" ]; then
+          cp -r tests/Fixtures/images/* storage/app/public/blog
+        fi
 
     - name: Run tests
       run: vendor/bin/phpunit
