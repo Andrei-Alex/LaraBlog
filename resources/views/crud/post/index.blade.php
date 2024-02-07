@@ -102,10 +102,17 @@
                                     text-gray-300
                                 @endif
                                 ">
-                                    <div>
+                                    <div class="flex">
                                         <a href="{{route('post.edit', $post)}}"
-                                           class="text-white bg-cyan-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">Edit</a>
+                                           class="text-white bg-cyan-500 hover:bg-blue-700 font-medium py-2 px-4 rounded-l transition ease-in-out duration-150">Edit</a>
+
+                                        <a href="{{route('post.show', ['slug' => $post->slug, 'post' => $post])}}"
+                                           class="text-white bg-blue-500 hover:bg-blue-700 font-medium py-2 px-4 rounded-r transition ease-in-out duration-150">
+                                            View
+                                        </a>
                                     </div>
+
+
                                 </td>
                                 <td class="px-5 py-5 border-b border-gray-700 text-sm text-gray-300">
 
