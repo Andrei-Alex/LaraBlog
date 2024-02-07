@@ -78,11 +78,13 @@
                                     text-gray-300
                                 @endif
                                 ">
+                                    <div class="flex flex-col">
                                     @foreach($post->tags as $tag )
-                                        <div> {{$tag['name']}}
-                                            </br>
-                                        </div>
+                                        <x-tag>
+                                        {{$tag['name']}}
+                                        </x-tag>
                                     @endforeach
+                                    </div>
                                 </td>
 
                                 <td class="px-5 py-5 border-b border-gray-700 text-sm
@@ -108,14 +110,14 @@
                                             :href="route('post.edit', $post)"
                                             text="Edit"
                                             type="edit"
-                                            rounded="left"
+                                            class="rounded-l"
                                             :disabled="$post->deleted_at !== null"
                                         />
                                         <x-crud-button
                                             :href="route('post.show', ['slug' => $post->slug, 'post' => $post])"
                                             text="Preview"
                                             type="preview"
-                                            rounded="right"
+                                            class="rounded-r"
                                             :disabled="$post->deleted_at !== null"
                                         />
                                     </div>
