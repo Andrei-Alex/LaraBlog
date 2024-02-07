@@ -106,6 +106,7 @@
                                 ">
 
                                     <div class="flex">
+
                                         <x-crud-button
                                             :href="route('post.edit', $post)"
                                             text="Edit"
