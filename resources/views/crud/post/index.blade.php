@@ -102,17 +102,23 @@
                                     text-gray-300
                                 @endif
                                 ">
+
                                     <div class="flex">
-                                        <x-crud-button :href="route('post.edit', $post)" text="Edit" type="edit" rounded="left"/>
-{{--                                        <a href="{{route('post.edit', $post)}}"--}}
-{{--                                           class="text-white bg-cyan-500 hover:bg-blue-700 font-medium py-2 px-4 rounded-l transition ease-in-out duration-150">Edit</a>--}}
-
-                                        <a href="{{route('post.show', ['slug' => $post->slug, 'post' => $post])}}"
-                                           class="text-white bg-blue-500 hover:bg-blue-700 font-medium py-2 px-4 rounded-r transition ease-in-out duration-150">
-                                            View
-                                        </a>
+                                        <x-crud-button
+                                            :href="route('post.edit', $post)"
+                                            text="Edit"
+                                            type="edit"
+                                            rounded="left"
+                                            :disabled="$post->deleted_at !== null"
+                                        />
+                                        <x-crud-button
+                                            :href="route('post.show', ['slug' => $post->slug, 'post' => $post])"
+                                            text="Preview"
+                                            type="preview"
+                                            rounded="right"
+                                            :disabled="$post->deleted_at !== null"
+                                        />
                                     </div>
-
 
                                 </td>
                                 <td class="px-5 py-5 border-b border-gray-700 text-sm text-gray-300">
