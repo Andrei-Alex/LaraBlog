@@ -103,8 +103,9 @@
                                 @endif
                                 ">
                                     <div class="flex">
-                                        <a href="{{route('post.edit', $post)}}"
-                                           class="text-white bg-cyan-500 hover:bg-blue-700 font-medium py-2 px-4 rounded-l transition ease-in-out duration-150">Edit</a>
+                                        <x-crud-button :href="route('post.edit', $post)" text="Edit" type="edit" rounded="left"/>
+{{--                                        <a href="{{route('post.edit', $post)}}"--}}
+{{--                                           class="text-white bg-cyan-500 hover:bg-blue-700 font-medium py-2 px-4 rounded-l transition ease-in-out duration-150">Edit</a>--}}
 
                                         <a href="{{route('post.show', ['slug' => $post->slug, 'post' => $post])}}"
                                            class="text-white bg-blue-500 hover:bg-blue-700 font-medium py-2 px-4 rounded-r transition ease-in-out duration-150">
