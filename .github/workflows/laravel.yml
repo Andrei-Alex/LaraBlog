@@ -68,11 +68,17 @@ jobs:
         cp .env.example .env
         php artisan key:generate
         chmod -R 777 storage bootstrap/cache
+        mkdir -p storage/app/public/blog
+        php artisan storage:link
         touch database/database.sqlite
         echo "DB_CONNECTION=sqlite" >> .env
         echo "DB_DATABASE=${{ github.workspace }}/database/database.sqlite" >> .env
         echo "DB_FOREIGN_KEYS=true" >> .env
         php artisan migrate
+
+    - name: Copy test images to storage
+      run: |
+        cp -r tests/Fixtures/images/* storage/app/public/blog
 
     - name: Run tests
       run: vendor/bin/phpunit
