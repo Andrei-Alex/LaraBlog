@@ -26,7 +26,13 @@ class PostFactory extends Factory
         $title = $this->faker->sentence;
         $directory = storage_path('app/public/blog');
         $files = File::files($directory);
-        $imageFile = $files[rand(0, count($files) - 1)];
+
+        if (count($files) > 0) {
+            $imageFile = $files[rand(0, count($files) - 1)];
+            $image = 'blog/' . $imageFile->getFilename();
+        } else {
+            $image = $this->faker->imageUrl(640, 480, 'post');
+        }
 
         return [
             'title' => $title,
@@ -34,7 +40,7 @@ class PostFactory extends Factory
             'content' => $this->faker->paragraphs(asText: true),
             'category_id' => Category::inRandomOrder()->first()->id,
             'user_id' => User::factory(),
-            'image' => 'blog/' . $imageFile->getFilename(),
+            'image' => $image,
         ];
     }
 }
