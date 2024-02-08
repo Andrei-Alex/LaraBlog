@@ -1,10 +1,9 @@
 import './bootstrap';
+import "./libraries/quill.js"
 import '@fortawesome/fontawesome-free/js/all.js';
+
+
 import TomSelect from 'tom-select';
-
-
-
-
 
 import Alpine from 'alpinejs';
 window.Alpine = Alpine;
@@ -16,3 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
         plugins: {remove_button: {title: 'Delete'}}
     });
 });
+
+
+
