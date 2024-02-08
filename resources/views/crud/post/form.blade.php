@@ -91,8 +91,12 @@
             </div>
             <div class="mt-3">
                 <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Content</label>
-                <textarea rows="10" name="content" placeholder="Content title..."
-                          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500">{{ old('content', $post->content) }}</textarea>
+{{--                <textarea rows="10" name="content" placeholder="Content title..."--}}
+{{--                          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500">{{ old('content', $post->content) }}</textarea>--}}
+{{--              --}}
+                <div id="quill-editor"></div>
+                <input type="hidden" name="content" id="quill-content">
+
                 @error('content')
                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{$message}}</p>
                 @enderror

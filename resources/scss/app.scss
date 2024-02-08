@@ -1,5 +1,4 @@
 @import "@fortawesome/fontawesome-free/css/all.min.css";
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,3 +9,4 @@
 @import "shared/secondary-post-nav";
 @import "components/crud-card";
 @import "components/tag";
+@import "libraries/quill";
