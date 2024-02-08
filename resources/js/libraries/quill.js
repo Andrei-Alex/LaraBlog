@@ -2,7 +2,10 @@ import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 
 document.addEventListener('DOMContentLoaded', function() {
-    var quill = new Quill('#quill-editor', {
+    const quillEditor = document.querySelector('#quill-editor');
+    const hiddenInput = document.querySelector('#hiddenContent');
+
+    const quill = new Quill(quillEditor, {
         theme: 'snow',
         modules: {
             toolbar: [
@@ -13,22 +16,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    const oldContent = hiddenInput.value;
+    if (oldContent) {
+        quill.root.innerHTML = oldContent;
+    }
+
     quill.on('text-change', function() {
-        document.querySelector('#quill-content').value = quill.root.innerHTML;
+        hiddenInput.value = quill.root.innerHTML;
     });
+
+    const form = document.getElementById('PostForm');
+    if (form) {
+        form.addEventListener('submit', function() {
+            hiddenInput.value = quill.root.innerHTML;
+        });
+    }
 });
-
-quill.getModule('toolbar').addHandler('image', () => {
-    const input = document.createElement('input');
-    input.setAttribute('type', 'file');
-    input.click();
-
-    input.onchange = () => {
-        const file = input.files[0];
-        const url = '/path/to/uploaded/image.jpg';
-        const range = quill.getSelection();
-        quill.insertEmbed(range.index, 'image', url);
-    };
-});
-
-
