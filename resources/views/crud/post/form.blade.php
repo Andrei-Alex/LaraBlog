@@ -105,3 +105,7 @@
     </form>
 </div>
 
+@section('scripts')
+    @vite(['resources/js/libraries/quill.js'])
+@endsection
+
