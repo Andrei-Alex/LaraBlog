@@ -1,5 +1,4 @@
 import './bootstrap';
-import "./libraries/quill.js"
 import '@fortawesome/fontawesome-free/js/all.js';
 
 
@@ -8,7 +7,6 @@ import TomSelect from 'tom-select';
 import Alpine from 'alpinejs';
 window.Alpine = Alpine;
 Alpine.start();
-
 
 document.addEventListener('DOMContentLoaded', function() {
     new TomSelect("select[multiple]",{

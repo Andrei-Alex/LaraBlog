@@ -96,7 +96,6 @@
                           id="hiddenContent">{{ old('content', $post->content) }}</textarea>
 
                 <div id="quill-editor"></div>
-                <input type="hidden" name="content" id="quill-content">
 
                 @error('content')
                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{$message}}</p>
@@ -105,4 +104,8 @@
         </div>
     </form>
 </div>
+
+@section('scripts')
+    @vite(['resources/js/libraries/quill.js'])
+@endsection
 
