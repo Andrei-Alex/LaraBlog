@@ -107,5 +107,6 @@
 
 @section('scripts')
     @vite(['resources/js/libraries/quill.js'])
+    @vite(['resources/js/libraries/tomSelect.js'])
 @endsection
 
