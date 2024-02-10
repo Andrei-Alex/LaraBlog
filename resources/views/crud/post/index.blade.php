@@ -13,11 +13,14 @@
     <x-session-message/>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <a href="{{route('post.create')}}"
-           class="text-white bg-green-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
-            <i class="fas fa-plus mr-2"></i>Add Post
-        </a>
+        <x-crud-button
+            :href="route('post.create')"
+            text="New post"
+            type="preview"
+            icon="fas fa-plus"
+        />
     </div>
+
 
 
     <div class="py-12">
@@ -111,14 +114,14 @@
                                             :href="route('post.edit', $post)"
                                             text="Edit"
                                             type="edit"
-                                            class="rounded-l"
+                                            rounded="left"
                                             :disabled="$post->deleted_at !== null"
                                         />
                                         <x-crud-button
                                             :href="route('post.show', ['slug' => $post->slug, 'post' => $post])"
                                             text="Preview"
                                             type="preview"
-                                            class="rounded-r"
+                                            rounded="right"
                                             :disabled="$post->deleted_at !== null"
                                         />
                                     </div>

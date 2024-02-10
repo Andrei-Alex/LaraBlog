@@ -6,11 +6,12 @@ use Illuminate\View\Component;
 
 class CrudButton extends Component
 {
-    public $href;
-    public $text;
-    public $type;
-    public $rounded;
-    public $disabled;
+    public string|null $href;
+    public string|null $text;
+    public string|null $type;
+    public string|null $rounded;
+    public bool $disabled;
+    public string|null $icon;
 
     private $roundedStyles = [
         'true' => 'rounded ',
@@ -19,13 +20,15 @@ class CrudButton extends Component
         'none' => '',
     ];
 
-    public function __construct($href, $text, $type = 'preview', $rounded = 'true', $disabled = false)
+    public function __construct($href, $text, $type = 'preview', $rounded = 'true', $disabled = false, $icon=null)
     {
         $this->href = $href;
         $this->text = $text;
         $this->type = $type;
         $this->rounded = $this->roundedStyles[$rounded] ?? $this->roundedStyles['true'];
         $this->disabled = $disabled;
+        $this->icon = $icon;
+
     }
 
     public function render()

@@ -3,10 +3,11 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "tom-select";
+@import "libraries/tom-select";
+@import "libraries/quill";
 @import "alerts";
 
 @import "shared/secondary-post-nav";
 @import "components/crud-card";
 @import "components/tag";
-@import "libraries/quill";
+

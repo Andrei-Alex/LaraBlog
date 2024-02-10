@@ -12,6 +12,9 @@
        onclick="event.preventDefault();" aria-disabled="true"
     @endif
 >
+    @if ($icon)
+        <i class="{{ $icon }} mr-2"></i>
+    @endif
     {{ $text }}
 </a>
 
