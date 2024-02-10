@@ -5,9 +5,13 @@
 
 @import "libraries/tom-select";
 @import "libraries/quill";
-@import "alerts";
 
-@import "shared/secondary-post-nav";
+@import "_partials/_alerts";
+
 @import "components/crud-card";
 @import "components/tag";
+@import "components/crud-container";
+
+@import "shared/secondary-post-nav";
+@import "shared/crud";
 
