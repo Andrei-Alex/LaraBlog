@@ -4,9 +4,6 @@
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __("Blog Post Panel")}}
             </h2>
-            <div>
-                @include('shared.secondary-post-nav')
-            </div>
         </div>
     </x-slot>
 
@@ -17,9 +14,23 @@
         <x-slot name="buttons">
             <x-crud-button
                 :href="route('post.create')"
-                text="New post"
-                type="preview"
+                type="add"
                 icon="fas fa-plus"
+            />
+            <x-crud-button
+                :href="route('post.create')"
+                type="info"
+                icon="fas fa-list"
+            />
+            <x-crud-button
+                :href="url()->previous()"
+                type="info"
+                icon="fas fa-tag"
+            />
+            <x-crud-button
+                :href="route('post.create')"
+                type="default"
+                icon="fas fa-rotate-left"
             />
         </x-slot>
 
@@ -27,23 +38,23 @@
 
             <thead>
             <tr>
-                <th class="crud-title">
+                <th class="crud-table-title">
                     Title
                 </th>
-                <th class="crud-title">
+                <th class="crud-table-title">
                     Content
                 </th>
-                <th class="crud-title">
+                <th class="crud-table-title">
                     Tags
                 </th>
-                <th class="crud-title">
+                <th class="crud-table-title">
                     Category
                 </th>
-                <th class="crud-title">
+                <th class="crud-table-title">
                     Edit
                 </th>
                 @can('delete', array($posts[0]))
-                    <th class="crud-title">
+                    <th class="crud-table-title">
                         Actions
                     </th>
                 @endcan

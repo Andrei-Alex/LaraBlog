@@ -6,7 +6,7 @@ use Illuminate\View\Component;
 
 class CrudButton extends Component
 {
-    public string|null $href;
+    public string $href;
     public string|null $text;
     public string|null $type;
     public string|null $rounded;
@@ -20,7 +20,7 @@ class CrudButton extends Component
         'none' => '',
     ];
 
-    public function __construct($href, $text, $type = 'preview', $rounded = 'true', $disabled = false, $icon=null)
+    public function __construct($href, $text = null, $type = 'preview', $rounded = 'true', $disabled = false, $icon=null)
     {
         $this->href = $href;
         $this->text = $text;
@@ -47,6 +47,7 @@ class CrudButton extends Component
             'danger' => 'bg-red-500 hover:bg-blue-700 text-white',
             'warning' => 'bg-yellow-500 hover:bg-yellow-700 text-black',
             'info' => 'bg-cyan-500 hover:bg-cyan-700 text-white',
+            'default' => 'bg-gray-500 hover:bg-gray-700 text-white',
         ];
 
         return $buttonStyles[$this->type] ?? $buttonStyles['preview'];
