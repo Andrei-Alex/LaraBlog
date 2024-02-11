@@ -5,33 +5,35 @@ namespace App\View\Components;
 use Illuminate\View\Component;
 
 /**
- * Component responsible for displaying session messages.
+ * A Blade component for rendering session messages in a consistent format.
  *
- * This component fetches and displays messages that have been stored in the session.
- * It is capable of handling different types of messages such as success, error, info, etc.,
- * by utilizing the `message` and `messageType` session variables.
+ * Utilizes Laravel's session store to check for messages of various types (success, error, info, warning)
+ * and displays them if available. This component streamlines the display of feedback messages
+ * to the user across different views.
  */
 class SessionMessage extends Component
 {
     /**
-     * The message content fetched from the session.
+     * Content of the message fetched from the session.
      *
      * @var string|null
      */
     public ?string $message = null;
 
     /**
-     * The type of message, which determines styling, fetched from the session.
-     * Defaults to 'info' if not specified in the session.
+     * Type of the message which determines its styling.
+     * Defaults to 'info' if a specific type is not provided in the session.
      *
      * @var string|null
      */
     public ?string $type = null;
 
     /**
-     * Create a new SessionMessage component instance.
+     * Constructs a new instance of the SessionMessage component.
      *
-     * Initializes the component by fetching the message and its type from the session.
+     * Checks the session for messages of various types and initializes the component
+     * state with the first message found. Supports custom message types beyond the basic
+     * success, error, info, and warning types by fetching 'message' and 'messageType' from the session.
      */
     public function __construct()
     {
@@ -41,20 +43,20 @@ class SessionMessage extends Component
             if (session()->has($type)) {
                 $this->message = session($type);
                 $this->type = $type;
-                break; // Stop once a message is found.
+                break;
             }
         }
+
         if (is_null($this->message)) {
             $this->message = session('message');
             $this->type = session('messageType', 'info');
         }
     }
 
-
     /**
-     * Get the view that represents the component.
+     * Get the view or string content that represents the component.
      *
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Support\Htmlable|\Illuminate\Contracts\Foundation\Application|\Closure|string
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Support\Htmlable|string
      */
     public function render()
     {
