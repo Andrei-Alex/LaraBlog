@@ -12,11 +12,15 @@ use \App\Models\Post;
 class PostTest extends TestCase
 {
     use RefreshDatabase;
+
     protected function setUp(): void
     {
         parent::setUp();
         $breadcrumbsMock = \Mockery::mock(BreadcrumbsManager::class);
-        $breadcrumbsMock->shouldReceive('generate')->andReturn([]);
+        $breadcrumbsMock->shouldReceive('generate')->andReturn([
+            ['title' => 'Dashboard', 'url' => '/dashboard'],
+            ['title' => 'Post', 'url' => '/post'],
+        ]);
         $this->app->instance(BreadcrumbsManager::class, $breadcrumbsMock);
     }
 
