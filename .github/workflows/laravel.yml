@@ -76,7 +76,9 @@ jobs:
         echo "DB_FOREIGN_KEYS=true" >> .env
         php artisan migrate
 
-    # Ensure test images are copied only if the directory exists
+    - name: Seed database
+      run: php artisan db:seed
+
     - name: Copy test images to storage
       run: |
         if [ -d "tests/Fixtures/images" ]; then
