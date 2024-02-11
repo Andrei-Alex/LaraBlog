@@ -21,6 +21,16 @@ class PostTest extends TestCase
             ['title' => 'Dashboard', 'url' => '/dashboard'],
             ['title' => 'Post', 'url' => '/post'],
         ]);
+
+        $breadcrumbsMock->shouldReceive('render')->andReturn('
+        <nav aria-label="breadcrumb">
+         <ol class="breadcrumb">
+             <li class="breadcrumb-item">
+                 <a href="/dashboard">Dashboard</a></li>
+             <li class="breadcrumb-item active" aria-current="page">Post</li>
+         </ol>
+        </nav>');
+
         $this->app->instance(BreadcrumbsManager::class, $breadcrumbsMock);
     }
 
