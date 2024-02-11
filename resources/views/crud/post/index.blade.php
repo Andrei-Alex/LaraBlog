@@ -30,6 +30,23 @@
 
         </x-slot>
 
+
+
+        <x-slot name="search">
+            <form action="{{ route('post.index') }}" method="GET">
+                <input type="text" name="search" placeholder="Search by title" value="{{ $filters['search'] ?? '' }}">
+                <button type="submit">Search</button>
+                @if (!empty($filters['user_id']))
+                    <input type="hidden" name="user_id" value="{{ $filters['user_id'] }}">
+                @endif
+                @if (!empty($filters['order_by']))
+                    <input type="hidden" name="order_by" value="{{ $filters['order_by'] }}">
+                @endif
+                @if (!empty($filters['direction']))
+                    <input type="hidden" name="direction" value="{{ $filters['direction'] }}">
+                @endif
+            </form>
+        </x-slot>
         <x-slot name="table">
 
             <thead>
