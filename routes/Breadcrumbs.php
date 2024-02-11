@@ -1,14 +1,21 @@
 <?php
 
-use Tabuna\Breadcrumbs\Breadcrumbs;
-use Tabuna\Breadcrumbs\Trail;
+use Diglactic\Breadcrumbs\Breadcrumbs;
 
-Breadcrumbs::for('dashboard', function (Trail $trail) {
-    $trail->push('Dashboard', route('dashboard'));
+
+// Home
+Breadcrumbs::for('dashboard', function ($trail) {
+    $trail->push('Dashboard', route('dashboard')); // Assuming you have a 'home' named route
 });
 
-Breadcrumbs::for('post.index', function (Trail $trail) {
-    $trail->parent('home')
-        ->push('Post', route('post.index'));
+// Home > Posts
+Breadcrumbs::for('post.index', function ($trail) {
+    $trail->parent('dashboard');
+    $trail->push('Posts', route('post.index'));
 });
 
+// Home > Posts > [Post]
+Breadcrumbs::for('post.show', function ($trail, $post) {
+    $trail->parent('post.index');
+    $trail->push($post->title, route('post.show', ['slug' => $post->slug, 'post' => $post]));
+});
