@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex justify-between items-center space-x-4">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __("Blog Post Panel")}}
+                {{ Breadcrumbs::render('post.index') }}
             </h2>
         </div>
     </x-slot>
@@ -90,11 +90,21 @@
                                 @endif
                                 ">
                         <div class="flex flex-col">
-                            @foreach($post->tags as $tag )
-                                <x-tag>
-                                    {{$tag['name']}}
-                                </x-tag>
-                            @endforeach
+                            <div>
+                                @if(!$post->draft && !$post->deleted_at)
+                                    <x-tag class="bg-green-500 dark:bg-green-300">
+                                        Published
+                                    </x-tag>
+                                @elseif($post->draft && !$post->deleted_at)
+                                    <x-tag class="bg-yellow-500 dark:bg-yellow-300">
+                                       Draft
+                                    </x-tag>
+                                @else
+                                    <x-tag class="bg-red-500 dark:bg-red-300">
+                                        Deleted
+                                    </x-tag>
+                                @endif
+                            </div>
                         </div>
                     </td>
 
