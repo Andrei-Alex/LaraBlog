@@ -33,7 +33,12 @@ class PostController extends Controller
     {
 
         $posts = Post::query();
-        $filters = $request->all(['user_id', 'order_by', 'direction']);
+        $filters = $request->all(['user_id', 'order_by', 'direction', 'search']);
+
+
+        if (!empty($filters['search'])) {
+            $posts->where('title', 'LIKE', '%' . $filters['search'] . '%');
+        }
 
         if (!empty($filters['user_id'])) {
             $posts->filterByUser($filters['user_id']);

@@ -1,9 +1,14 @@
 <div class="crud-container">
+
+    <div class="crud-search">
+        {{ $search }}
+    </div>
+
     <div class="flex flex-row justify-center">
         <div class="crud-sidebar">
             <div>
                 <x-crud-button
-                    :href="route('post.index', array_merge($filters,['user_id' => auth()->id()]))"
+                    :href="route('post.index', array_merge(request()->all(),['user_id' => auth()->id()]))"
                     type="default"
                     icon="fas fa-user"
                 />
@@ -13,7 +18,7 @@
                     icon="fas fa-caret-up"
                 />
                 <x-crud-button
-                    :href="route('post.index', array_merge($filters, ['order_by' => 'created_at', 'direction' => 'desc']))"
+                    :href="route('post.index', array_merge(request()->all(), ['order_by' => 'created_at', 'direction' => 'desc']))"
                     type="default"
                     icon="fas fa-caret-down"
                 />

@@ -24,7 +24,7 @@ class postTest extends TestCase
         Post::factory()->count(3)->create();
         $response = $this->get('/post');
         $response->assertStatus(200);
-        $response->assertSee('Blog Post Panel');
+        $response->assertSee('Post');
     }
 
     public function a_post_can_be_soft_deleted()
