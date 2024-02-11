@@ -35,8 +35,7 @@ class SessionMessage extends Component
      */
     public function __construct()
     {
-        // Assuming 'success', 'error', 'info', etc., are used as direct keys in the session.
-        $messageTypes = ['success', 'error', 'info', 'warning']; // Extend this list as needed.
+        $messageTypes = ['success', 'error', 'info', 'warning'];
 
         foreach ($messageTypes as $type) {
             if (session()->has($type)) {
