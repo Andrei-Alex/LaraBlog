@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -28,11 +29,26 @@ class PostController extends Controller
      * @return View
      * Returns a view with a paginated list of posts.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
 
+        $posts = Post::query();
+        $filters = $request->all(['user_id', 'order_by', 'direction']);
+
+        if (!empty($filters['user_id'])) {
+            $posts->filterByUser($filters['user_id']);
+        }
+
+        if (!empty($filters['order_by']) && !empty($filters['direction'])) {
+            $posts->orderByField($filters['order_by'], $filters['direction']);
+        }
+
+        $posts = $posts->with(['tags', 'category'])->withTrashed()->paginate(5)
+            ->appends($filters);
+
         return view('crud/post/index', [
-            'posts' => Post::with(['tags', 'category'])->withTrashed()->paginate(5)
+            'posts' => $posts,
+            'filters' => $filters
         ]);
     }
 

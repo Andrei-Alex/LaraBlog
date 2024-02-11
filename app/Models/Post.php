@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -93,6 +94,16 @@ class Post extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function scopeFilterByUser(Builder $query, $userId)
+    {
+        return $query->where('user_id', $userId);
+    }
+
+    public function scopeOrderByField(Builder $query, $field, $direction = 'asc')
+    {
+        return $query->orderBy($field, $direction);
     }
 
 }

@@ -23,15 +23,11 @@
                 icon="fas fa-list"
             />
             <x-crud-button
-                :href="url()->previous()"
+                :href="route('post.create')"
                 type="info"
                 icon="fas fa-tag"
             />
-            <x-crud-button
-                :href="route('post.create')"
-                type="default"
-                icon="fas fa-rotate-left"
-            />
+
         </x-slot>
 
         <x-slot name="table">

@@ -1,7 +1,33 @@
 <div class="crud-container">
     <div class="flex flex-row justify-center">
         <div class="crud-sidebar">
-            {{ $buttons }}
+            <div>
+                <x-crud-button
+                    :href="route('post.index', array_merge($filters,['user_id' => auth()->id()]))"
+                    type="default"
+                    icon="fas fa-user"
+                />
+                <x-crud-button
+                    :href="route('post.index', array_merge(request()->all(), ['order_by' => 'created_at', 'direction' => 'asc']))"
+                    type="default"
+                    icon="fas fa-caret-up"
+                />
+                <x-crud-button
+                    :href="route('post.index', array_merge($filters, ['order_by' => 'created_at', 'direction' => 'desc']))"
+                    type="default"
+                    icon="fas fa-caret-down"
+                />
+            </div>
+            <div>
+                {{ $buttons }}
+            </div>
+            <div>
+                <x-crud-button
+                    :href="url()->previous()"
+                    type="default"
+                    icon="fas fa-caret-left"
+                />
+            </div>
         </div>
         <div class=crud-content"">
             <div class="crud-table-container">
