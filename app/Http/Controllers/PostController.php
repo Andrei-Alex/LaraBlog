@@ -11,45 +11,41 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
-use \App\Notifications\PostPublished;
+use App\Notifications\PostPublished;
 
 /**
- * Class PostController
+ * Controller responsible for handling blog post operations.
  *
- * Controller for handling operations related to the Post model.
- *
- * This class extends Laravel's base Controller class. It provides methods
- * to handle CRUD operations for blog posts.
+ * It provides functionality to create, read, update, and delete blog posts,
+ * as well as publishing and restoring them. It supports filtering and sorting
+ * posts based on user input, and integrates with models to interact with the database.
  */
 class PostController extends Controller
 {
     /**
-     * Display a listing of the posts.
+     * Display a paginated list of posts with optional filtering and sorting.
      *
-     * @return View
-     * Returns a view with a paginated list of posts.
+     * @param Request $request HTTP request containing filter and sort parameters.
+     * @return View The view displaying posts based on applied filters and sorting.
      */
     public function index(Request $request): View
     {
-
         $posts = Post::query();
         $filters = $request->all(['user_id', 'order_by', 'direction', 'search']);
-
 
         if (!empty($filters['search'])) {
             $posts->where('title', 'LIKE', '%' . $filters['search'] . '%');
         }
 
         if (!empty($filters['user_id'])) {
-            $posts->filterByUser($filters['user_id']);
+            $posts->where('user_id', $filters['user_id']);
         }
 
         if (!empty($filters['order_by']) && !empty($filters['direction'])) {
-            $posts->orderByField($filters['order_by'], $filters['direction']);
+            $posts->orderBy($filters['order_by'], $filters['direction']);
         }
 
-        $posts = $posts->with(['tags', 'category'])->withTrashed()->paginate(5)
-            ->appends($filters);
+        $posts = $posts->with(['tags', 'category'])->withTrashed()->paginate(5)->appends($filters);
 
         return view('crud/post/index', [
             'posts' => $posts,
@@ -58,135 +54,118 @@ class PostController extends Controller
     }
 
     /**
-     * Display the specified post.
-     *
-     * @param string $slug The slug of the post.
-     * @param Post $post The Post model instance.
-     * @return RedirectResponse|View
-     * Either a redirect response to the correct slug if it's mismatched, or the view with the Post model instance.
-     */
-    public function show(string $slug, Post $post): View
-    {
-        if ($post->slug !== $slug) {
-            return to_route('post.show', ['slug' => $post->slug, 'id' => $post->id]);
-        }
-        return view('crud/post/show', ['post' => $post]);
-    }
-
-    /**
      * Show the form for creating a new post.
      *
-     * @return View
-     * Returns the view for creating a new post.
+     * @return View The view containing the form to create a new post.
      */
     public function create(): View
     {
-        $post = new Post();
         return view('crud/post/create', [
-            'post' => $post,
-            'categories' => Category::select('id', 'name')->get(),
-            'tags' => Tag::select('id', 'name')->get(),
+            'post' => new Post(),
+            'categories' => Category::all(),
+            'tags' => Tag::all(),
         ]);
     }
 
     /**
-     * Store a newly created post in storage.
+     * Store a newly created post in the database.
      *
-     * @param FormPostRequest $request The request containing post data.
-     * @return RedirectResponse
-     * Redirects to the newly created post with a success message.
+     * @param FormPostRequest $request Validated post data.
+     * @return RedirectResponse Redirect to the created post with a success message.
      */
     public function store(FormPostRequest $request): RedirectResponse
     {
-        $data = $this->extractData(new Post(), $request);
+        $data = $request->validated();
         $data['user_id'] = auth()->id();
-
         $post = Post::create($data);
-        if ($request->filled('tags')) {
-            $post->tags()->sync($request->validated('tags'));
+
+        if ($request->has('tags')) {
+            $post->tags()->sync($request->tags);
         }
-        return redirect()->route('post.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Created successfully!');
+
+        return to_route('post.show', [$post->slug])->with('success', 'Post created successfully.');
+    }
+
+    /**
+     * Display the specified post.
+     *
+     * @param Post $post The post model instance.
+     * @return View The view displaying the specified post.
+     */
+    public function show(Post $post): View
+    {
+        return view('crud/post/show', compact('post'));
     }
 
     /**
      * Show the form for editing the specified post.
      *
-     * @param Post $post The Post model instance.
-     * @return View
-     * Returns the view for editing the specified post.
+     * @param Post $post The post model instance.
+     * @return View The view containing the form to edit the post.
      */
     public function edit(Post $post): View
     {
         return view('crud/post/edit', [
             'post' => $post,
-            'categories' => Category::select('id', 'name')->get(),
-            'tags' => Tag::select('id', 'name')->get(),
+            'categories' => Category::all(),
+            'tags' => Tag::all(),
         ]);
     }
 
     /**
-     * Update the specified post in storage.
+     * Update the specified post in the database.
      *
-     * @param Post $post The Post model instance.
-     * @param FormPostRequest $request The request containing updated post data.
-     * @return RedirectResponse
-     * Redirects to the updated post with a success message.
+     * @param FormPostRequest $request Validated post data.
+     * @param Post $post The post model instance to update.
+     * @return RedirectResponse Redirect to the updated post with a success message.
      */
-    public function update(Post $post, FormPostRequest $request): RedirectResponse
+    public function update(FormPostRequest $request, Post $post): RedirectResponse
     {
-        $post->update($this->extractData($post, $request));
-        $post->tags()->sync($request->validated('tags'));
+        $data = $request->validated();
+        $post->update($data);
 
-        return redirect()->route('post.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Updated successfully!');
+        if ($request->has('tags')) {
+            $post->tags()->sync($request->tags);
+        }
+
+        return to_route('post.show', [$post->slug])->with('success', 'Post updated successfully.');
     }
 
     /**
-     * Extract and process data from the request.
+     * Remove the specified post from the database.
      *
-     * @param Post $post The Post model instance.
-     * @param FormPostRequest $request The request containing post data.
-     * @return array
-     * Returns an array of processed data.
-     * @var UploadedFile|null $image
+     * @param Post $post The post model instance to delete.
+     * @return RedirectResponse Redirect to the posts list with a success message.
      */
-    private function extractData(Post $post, FormPostRequest $request): array
-    {
-        $data = $request->validated();
-        $image = $request->file('image');
-        if ($image && !$image->getError()) {
-            if ($post->image) {
-                Storage::disk('public')->delete($post->image);
-            }
-            $data['image'] = $image->store('blog', 'public');
-        }
-        return $data;
-    }
-
     public function destroy(Post $post): RedirectResponse
     {
         $post->delete();
-        return to_route('post.index')->with('success', 'Deleted successfully!');
+        return to_route('post.index')->with('success', 'Post deleted successfully.');
     }
 
     /**
-     * Restore the specified soft-deleted article.
+     * Restore the specified soft-deleted post.
      *
-     * @param string $id Article ID
-     * @return \Illuminate\Http\RedirectResponse
+     * @param int $id The ID of the post to restore.
+     * @return RedirectResponse Redirect to the posts list with a success message.
      */
-    public function restore($id): RedirectResponse
+    public function restore(int $id): RedirectResponse
     {
-        $post = Post::onlyTrashed()->findOrFail($id);
+        $post = Post::withTrashed()->findOrFail($id);
         $post->restore();
-        return to_route('post.index')->with('success', 'Restored successfully!');
+        return to_route('post.index')->with('success', 'Post restored successfully.');
     }
 
+    /**
+     * Publish the specified post.
+     *
+     * @param Post $post The post model instance to publish.
+     * @return RedirectResponse Redirect to the posts list with a success message.
+     */
     public function publish(Post $post): RedirectResponse
     {
-        $this->authorize('update', $post);
         $post->update(['draft' => false]);
         $post->user->notify(new PostPublished($post));
-
-        return redirect()->route('post.index')->with('success', 'Post published successfully!');
+        return to_route('post.index')->with('success', 'Post published successfully.');
     }
 }
