@@ -52,7 +52,10 @@ class PostTest extends TestCase
     public function test_a_post_can_be_soft_deleted(): void
     {
         $user = User::factory()->create();
-        $post = Post::factory()->create(['user_id' => $user->id]);
+
+        $category = Category::factory()->create();
+
+        $post = Post::factory()->create(['user_id' => $user->id, 'category_id' => $category->id]);
 
         $post->delete();
 
