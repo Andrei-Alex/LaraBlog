@@ -4,13 +4,21 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Diglactic\Breadcrumbs\Manager as BreadcrumbsManager;
 use Tests\TestCase;
 use \App\Models\Category;
 use \App\Models\Post;
 
-class postTest extends TestCase
+class PostTest extends TestCase
 {
     use RefreshDatabase;
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $breadcrumbsMock = \Mockery::mock(BreadcrumbsManager::class);
+        $breadcrumbsMock->shouldReceive('generate')->andReturn([]);
+        $this->app->instance(BreadcrumbsManager::class, $breadcrumbsMock);
+    }
 
     /**
      * A basic feature test example.
@@ -36,5 +44,11 @@ class postTest extends TestCase
         $this->assertSoftDeleted($post);
 
         $this->assertTrue(Post::withTrashed()->where('id', $post->id)->exists());
+    }
+
+    protected function tearDown(): void
+    {
+        \Mockery::close();
+        parent::tearDown();
     }
 }
