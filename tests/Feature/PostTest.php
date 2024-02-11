@@ -17,19 +17,10 @@ class PostTest extends TestCase
     {
         parent::setUp();
         $breadcrumbsMock = \Mockery::mock(BreadcrumbsManager::class);
-        $breadcrumbsMock->shouldReceive('generate')->andReturn([
-            ['title' => 'Dashboard', 'url' => '/dashboard'],
-            ['title' => 'Post', 'url' => '/post'],
-        ]);
+        $breadcrumbsMock->shouldReceive('generate')->andReturn([]);
 
-        $breadcrumbsMock->shouldReceive('render')->andReturn('
-        <nav aria-label="breadcrumb">
-         <ol class="breadcrumb">
-             <li class="breadcrumb-item">
-                 <a href="/dashboard">Dashboard</a></li>
-             <li class="breadcrumb-item active" aria-current="page">Post</li>
-         </ol>
-        </nav>');
+        $view = view('fake_view', ['content' => 'dummy content']);
+        $breadcrumbsMock->shouldReceive('render')->andReturn($view);
 
         $this->app->instance(BreadcrumbsManager::class, $breadcrumbsMock);
     }
