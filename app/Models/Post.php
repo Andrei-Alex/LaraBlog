@@ -11,35 +11,31 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Class Post
+ * Post model representing a blog post in the application.
  *
- * Represents a Post entity in the application.
- *
- * This class extends Laravel's Eloquent Model and uses the HasFactory trait,
- * enabling it to interact with the database and utilize factories for testing.
- * It represents a blog post which can belong to a category and have multiple tags.
- *
- * @property int $id The unique identifier for the post.
- * @property string $title The title of the post.
- * @property string $slug A slug for the post for URL-friendly identifiers.
- * @property string $content The content/body of the post.
- * @property int $category_id The foreign key for the associated category.
- * @property string|null $image The file path of the post's image.
- * @property-read Category $category The category this post belongs to.
- * @property-read \Illuminate\Database\Eloquent\Collection|Tag[] $tags The tags associated with the post.
+ * This model handles the data representation of a blog post, which includes
+ * attributes like title, content, category, and associated tags. It leverages
+ * Laravel's Eloquent ORM for database interaction, including relationships
+ * with Category and Tag models. It supports soft deletes, allowing posts to be
+ * restored after deletion.
  */
 class Post extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
+    /**
+     * Attributes that should be cast to native types.
+     *
+     * @var array
+     */
     protected $casts = [
         'draft' => 'boolean',
     ];
+
     /**
-     * The attributes that are mass assignable.
+     * Attributes that are mass assignable.
      *
-     * @var array<string>
+     * @var array
      */
     protected $fillable = [
         'title',
@@ -52,17 +48,9 @@ class Post extends Model
     ];
 
     /**
-     * The attributes that aren't mass assignable.
+     * Category relationship, a post belongs to a category.
      *
-     * @var array<string>
-     */
-    protected $guarded = [];
-
-    /**
-     * Get the category that the post belongs to.
-     *
-     * @return BelongsTo
-     *   The relationship query builder for the category.
+     * @return BelongsTo The relationship instance.
      */
     public function category(): BelongsTo
     {
@@ -70,10 +58,9 @@ class Post extends Model
     }
 
     /**
-     * The tags that belong to the post.
+     * Tags relationship, a post can have many tags.
      *
-     * @return BelongsToMany
-     *   The relationship query builder for tags.
+     * @return BelongsToMany The relationship instance.
      */
     public function tags(): BelongsToMany
     {
@@ -81,29 +68,47 @@ class Post extends Model
     }
 
     /**
-     * Get the URL of the post's image.
+     * User relationship, a post belongs to a user.
      *
-     * @return string
-     *   The URL of the image if it exists, otherwise an empty string.
+     * @return BelongsTo The relationship instance.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Retrieves the URL of the post's image.
+     *
+     * @return string The URL if the image exists, otherwise an empty string.
      */
     public function imageUrl(): string
     {
         return $this->image ? Storage::disk('public')->url($this->image) : '';
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function scopeFilterByUser(Builder $query, $userId)
+    /**
+     * Scope a query to filter posts by user ID.
+     *
+     * @param Builder $query The query builder instance.
+     * @param mixed $userId The ID of the user.
+     * @return Builder The modified query builder instance.
+     */
+    public function scopeFilterByUser(Builder $query, mixed $userId): Builder
     {
         return $query->where('user_id', $userId);
     }
 
-    public function scopeOrderByField(Builder $query, $field, $direction = 'asc')
+    /**
+     * Scope a query to order posts by a given field and direction.
+     *
+     * @param Builder $query The query builder instance.
+     * @param string $field The field to order by.
+     * @param string $direction The direction of sorting (asc or desc).
+     * @return Builder The modified query builder instance.
+     */
+    public function scopeOrderByField(Builder $query, string $field, string $direction = 'asc'): Builder
     {
         return $query->orderBy($field, $direction);
     }
-
 }
