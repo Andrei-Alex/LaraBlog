@@ -3,6 +3,7 @@
         @apply overflow-auto my-5 max-w-7xl mx-auto sm:px-6 lg:px-8 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 text-gray-900 dark:text-gray-100;
     }
 }
+
 .crud-table-container {
     @apply table-responsive;
 
@@ -10,13 +11,20 @@
         @apply min-w-full leading-normal;
     }
 }
+
 .crud-sidebar {
-   @apply mr-2 w-12 p-1.5 my-5 rounded-lg bg-white dark:bg-gray-800 text-white flex flex-col justify-between;
-    >div:first-child {
+    @apply mr-2 w-12 p-1.5 my-5 rounded-lg bg-white dark:bg-gray-800 text-white flex flex-col justify-between;
+    > div:first-child {
     }
 }
+
 .crud-search {
     @apply overflow-auto my-5 max-w-7xl mx-auto sm:px-6 lg:px-8
+}
+
+.crud-pagination {
+    @apply max-w-7xl mx-auto;
+    transform: translateX(1.7rem)
 }
 
 
