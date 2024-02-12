@@ -64,147 +64,119 @@
         </x-slot>
         <x-slot name="table">
 
-            <thead>
-            <tr>
-                <th class="crud-table-title">
-                    Title
-                </th>
-                <th class="crud-table-title">
-                    Content
-                </th>
-                <th class="crud-table-title">
-                    Tags
-                </th>
-                <th class="crud-table-title">
-                    Category
-                </th>
-                <th class="crud-table-title">
-                    Edit
-                </th>
-                @can('delete', array($posts[0]))
-                    <th class="crud-table-title">
-                        Actions
-                    </th>
-                @endcan
-
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($posts as $post)
-                <tr>
-                    <td class="px-5 py-5 border-b border-gray-700 text-sm
+            <div class="crud-content">
+                <div class="crud-test">
+                    <div class="crud-table-header">
+                        <p class="crud-table-title">Title</p>
+                        <p class="crud-table-title">Category</p>
+                        <p class="crud-table-title">Status</p>
+                        <p class="crud-table-title">Actions</p>
+                    </div>
+                    <div class="">
+                        @foreach($posts as $post)
+                            <div class="crud-table-rows">
+                                <div class="px-5 py-5 text-sm crud-element text-left
                                 @if ($post->deleted_at)
                                     text-gray-500
                                     @else
                                     text-gray-300
                                 @endif
                                 ">
-                        {{$post->title}}
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-700 text-sm
+                                    {{$post->title}}
+                                </div>
+
+                                <div class="px-5 py-5 text-sm text-left crud-element
                                 @if ($post->deleted_at)
                                     text-gray-500
                                     @else
                                     text-gray-300
                                 @endif
                                 ">
-                        {{Str::limit($post->content, 128, '...')}}
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-700 text-sm
+                                    {{Str::limit($post->category['name'], 128, '...')}}
+                                </div>
+
+                                <div class="px-5 crud-element py-5 text-sm text-left crud-element
                                 @if ($post->deleted_at)
                                     text-gray-500
                                     @else
                                     text-gray-300
                                 @endif
                                 ">
-                        <div class="flex flex-col">
-                            <div>
-                                @if(!$post->draft && !$post->deleted_at)
-                                    <x-tag class="bg-green-500 dark:bg-green-300">
-                                        Published
-                                    </x-tag>
-                                @elseif($post->draft && !$post->deleted_at)
-                                    <x-tag class="bg-yellow-500 dark:bg-yellow-300">
-                                        Draft
-                                    </x-tag>
-                                @else
-                                    <x-tag class="bg-red-500 dark:bg-red-300">
-                                        Deleted
-                                    </x-tag>
-                                @endif
-                            </div>
-                        </div>
-                    </td>
+                                    <div class="flex flex-col">
+                                        <div>
+                                            @if(!$post->draft && !$post->deleted_at)
+                                                <x-tag class="bg-green-500 dark:bg-green-300">
+                                                    Published
+                                                </x-tag>
+                                            @elseif($post->draft && !$post->deleted_at)
+                                                <x-tag class="bg-yellow-500 dark:bg-yellow-300">
+                                                    Draft
+                                                </x-tag>
+                                            @else
+                                                <x-tag class="bg-red-500 dark:bg-red-300">
+                                                    Deleted
+                                                </x-tag>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
 
-                    <td class="px-5 py-5 border-b border-gray-700 text-sm
+                                <div class="px-5 py-5 text-sm text-left crud-element
                                 @if ($post->deleted_at)
                                     text-gray-500
                                     @else
                                     text-gray-300
                                 @endif
                                 ">
-                        {{$post->category['name']}}
-                    </td>
+                                    <div class="flex">
 
-                    <td class="px-5 py-5 border-b border-gray-700 text-sm
-                                @if ($post->deleted_at)
-                                    text-gray-500
-                                    @else
-                                    text-gray-300
-                                @endif
-                                ">
-
-                        <div class="flex">
-
-                            <x-crud-button
-                                :href="route('post.edit', $post)"
-                                text="Edit"
-                                type="edit"
-                                rounded="left"
-                                :disabled="$post->deleted_at !== null"
-                            />
-                            <x-crud-button
-                                :href="route('post.show', ['slug' => $post->slug, 'post' => $post])"
-                                text="Preview"
-                                type="preview"
-                                rounded="right"
-                                :disabled="$post->deleted_at !== null"
-                            />
-                        </div>
-
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-700 text-sm text-gray-300">
-
-                        @can('delete', $post)
-                            <form action="
+                                        <x-crud-button
+                                            :href="route('post.edit', $post)"
+                                            text="Edit"
+                                            type="edit"
+                                            rounded="left"
+                                            :disabled="$post->deleted_at !== null"
+                                        />
+                                        <x-crud-button
+                                            :href="route('post.show', ['slug' => $post->slug, 'post' => $post])"
+                                            text="Preview"
+                                            type="preview"
+                                            rounded="right"
+                                            :disabled="$post->deleted_at !== null"
+                                        />
+                                        @can('delete', $post)
+                                            <form action="
                                              @if (!$post->deleted_at)
                                              {{route('post.destroy', $post)}}
                                               @else
                                                   {{route('post.restore', $post)}}
                                               @endif
                                               "
-                                  method="post">
-                                @csrf
-                                @if (!$post->deleted_at)
-                                    @method('delete')
-                                    <button
-                                        class="text-white bg-red-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
-                                        Delete
-                                    </button>
-                                @else
-                                    @method('PATCH')
-                                    <button
-                                        class="text-white bg-green-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
-                                        restore
-                                    </button>
-                                @endif
-                            </form>
-                        @endcan
+                                                  method="post">
+                                                @csrf
+                                                @if (!$post->deleted_at)
+                                                    @method('delete')
+                                                    <button
+                                                        class="text-white bg-red-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
+                                                        Delete
+                                                    </button>
+                                                @else
+                                                    @method('PATCH')
+                                                    <button
+                                                        class="text-white bg-green-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
+                                                        restore
+                                                    </button>
+                                                @endif
+                                            </form>
+                                        @endcan
+                                    </div>
 
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         </x-slot>
 
 
