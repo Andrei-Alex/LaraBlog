@@ -31,11 +31,26 @@
         </x-slot>
 
 
-
         <x-slot name="search">
             <form action="{{ route('post.index') }}" method="GET">
-                <input type="text" name="search" placeholder="Search by title" value="{{ $filters['search'] ?? '' }}">
-                <button type="submit">Search</button>
+                <div class="flex">
+                    <input type="text"
+                           name="search"
+                           placeholder="Search by title"
+                           value="{{ $filters['search'] ?? '' }}"
+                           class="mt-1 block  rounded-l-md border-gray-300 shadow-sm
+                       focus:border-indigo-300focus:ringfocus:ring-indigo-200 focus:ring-opacity-50
+                       dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500"
+                    >
+                    <button
+                        type="submit"
+                        class="mt-1 px-2 rounded-r-md border-gray-300 shadow-sm
+                               focus:border-indigo-300focus:ringfocus:ring-indigo-200 focus:ring-opacity-50
+                               dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500"
+                    >
+                        Search
+                    </button>
+                </div>
                 @if (!empty($filters['user_id']))
                     <input type="hidden" name="user_id" value="{{ $filters['user_id'] }}">
                 @endif
@@ -110,7 +125,7 @@
                                     </x-tag>
                                 @elseif($post->draft && !$post->deleted_at)
                                     <x-tag class="bg-yellow-500 dark:bg-yellow-300">
-                                       Draft
+                                        Draft
                                     </x-tag>
                                 @else
                                     <x-tag class="bg-red-500 dark:bg-red-300">
