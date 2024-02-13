@@ -68,9 +68,10 @@
                 <div class="crud-table">
                     <div class="crud-table-header">
                         <p class="crud-table-title">Title</p>
+                        <p class="crud-table-title crud-element-sm-none">Content</p>
                         <p class="crud-table-title">Category</p>
                         <p class="crud-table-title">Status</p>
-                        <p class="crud-table-title">Actions</p>
+                        <p class="crud-table-title crud-actions">Actions</p>
                     </div>
                     <div class="">
                         @foreach($posts as $post)
@@ -85,6 +86,16 @@
                                     {{$post->title}}
                                 </div>
 
+                                <div class="px-5 py-5 text-sm crud-element text-left crud-text-content crud-element-sm-none
+                                @if ($post->deleted_at)
+                                    text-gray-500
+                                    @else
+                                    text-gray-300
+                                @endif
+                                ">
+                                    {{Str::limit($post->content, 64, '...')}}
+                                </div>
+
                                 <div class="px-5 py-5 text-sm text-left crud-element
                                 @if ($post->deleted_at)
                                     text-gray-500
@@ -95,7 +106,7 @@
                                     {{Str::limit($post->category['name'], 128, '...')}}
                                 </div>
 
-                                <div class="px-5 crud-element py-5 text-sm text-left crud-element
+                                <div class="px-5 crud-element py-5 text-sm
                                 @if ($post->deleted_at)
                                     text-gray-500
                                     @else
@@ -121,7 +132,7 @@
                                     </div>
                                 </div>
 
-                                <div class="px-5 py-5 text-sm text-left crud-element
+                                <div class="px-5 py-5 text-sm text-left crud-actions
                                 @if ($post->deleted_at)
                                     text-gray-500
                                     @else
@@ -132,17 +143,19 @@
 
                                         <x-crud-button
                                             :href="route('post.edit', $post)"
-                                            text="Edit"
+                                            icon="fa fa-edit"
                                             type="edit"
                                             rounded="left"
+                                            class="py-4"
                                             :disabled="$post->deleted_at !== null"
                                         />
                                         <div class="crud-element-sm-none">
                                             <x-crud-button
                                                 :href="route('post.show', ['slug' => $post->slug, 'post' => $post])"
-                                                text="Preview"
+                                                icon="fa fa-eye"
                                                 type="preview"
                                                 rounded="right"
+                                                class="p-2"
                                                 :disabled="$post->deleted_at !== null"
                                             />
                                         </div>
@@ -160,16 +173,18 @@
                                                 @csrf
                                                 @if (!$post->deleted_at)
                                                     @method('delete')
-                                                    <button
-                                                        class="text-white bg-red-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
-                                                        Delete
-                                                    </button>
+                                                    <x-crud-button
+                                                        icon="fa fa-trash"
+                                                        type="danger"
+                                                        rounded="right"
+                                                    />
                                                 @else
                                                     @method('PATCH')
-                                                    <button
-                                                        class="text-white bg-green-500 hover:bg-blue-700 font-medium py-2 px-4 rounded transition ease-in-out duration-150">
-                                                        restore
-                                                    </button>
+                                                    <x-crud-button
+                                                        icon="fa fa-trash-can-arrow-up"
+                                                        type="restore"
+                                                        rounded="right"
+                                                    />
                                                 @endif
                                             </form>
                                         @endcan
