@@ -65,7 +65,7 @@
         <x-slot name="table">
 
             <div class="crud-content">
-                <div class="crud-test">
+                <div class="crud-table">
                     <div class="crud-table-header">
                         <p class="crud-table-title">Title</p>
                         <p class="crud-table-title">Category</p>
@@ -137,22 +137,26 @@
                                             rounded="left"
                                             :disabled="$post->deleted_at !== null"
                                         />
-                                        <x-crud-button
-                                            :href="route('post.show', ['slug' => $post->slug, 'post' => $post])"
-                                            text="Preview"
-                                            type="preview"
-                                            rounded="right"
-                                            :disabled="$post->deleted_at !== null"
-                                        />
+                                        <div class="crud-element-sm-none">
+                                            <x-crud-button
+                                                :href="route('post.show', ['slug' => $post->slug, 'post' => $post])"
+                                                text="Preview"
+                                                type="preview"
+                                                rounded="right"
+                                                :disabled="$post->deleted_at !== null"
+                                            />
+                                        </div>
                                         @can('delete', $post)
-                                            <form action="
+                                            <form
+                                                class="crud-element-sm-none"
+                                                action="
                                              @if (!$post->deleted_at)
                                              {{route('post.destroy', $post)}}
                                               @else
                                                   {{route('post.restore', $post)}}
                                               @endif
                                               "
-                                                  method="post">
+                                                method="post">
                                                 @csrf
                                                 @if (!$post->deleted_at)
                                                     @method('delete')

@@ -1,12 +1,17 @@
 @import "@fortawesome/fontawesome-free/css/all.min.css";
+
+@import '_partials/variables';
+@import '_partials/mixins';
+@import "_partials/_alerts";
+@import "_partials/_helpers";
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @import "libraries/tom-select";
 @import "libraries/quill";
-
-@import "_partials/_alerts";
 
 @import "components/crud-card";
 @import "components/tag";

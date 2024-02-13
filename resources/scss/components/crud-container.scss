@@ -6,21 +6,31 @@
 
 .crud-table-container {
     @apply table-responsive;
-
-    .crud-table {
-        @apply min-w-full leading-normal;
-    }
 }
 
-.crud-test {
-    @apply overflow-auto min-w-full max-w-7xl my-5 mx-auto bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg text-gray-900 dark:text-gray-100;
-    background-color: white;
-    color: black;
-    min-width: 80rem;
-    min-height: 25rem;
+.crud-table {
+    @apply overflow-auto min-w-full max-w-7xl my-5 mx-auto bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg text-gray-900 dark:text-gray-100;
+    @include max-width(sm) {
+        max-width: 30rem;
+        min-height: 25rem;
+    }
+    @include min-width(sm) {
+        max-width: 30rem;
+        min-height: 25rem;
+    }
+    @include min-width(md) {
+        min-width: 40rem;
+        min-height: 25rem;
+    }
+    @include min-width(lg) {
+        min-width: 80rem;
+        min-height: 25rem;
+    }
+
+
 }
 .crud-table-header {
-    @apply flex justify-between border-b-2 border-b-gray-200 p-3;
+    @apply flex justify-between border-b-2 border-b-gray-700 p-3;
 }
 .crud-table-rows {
     @apply flex justify-between;
@@ -33,6 +43,9 @@
     @apply mr-2 w-12 p-1.5 my-5 rounded-lg bg-white dark:bg-gray-800 text-white flex flex-col justify-between;
     > div:first-child {
     }
+    @include max-width(sm) {
+        display: none;
+    }
 }
 
 .crud-search {
@@ -40,8 +53,39 @@
 }
 
 .crud-pagination {
-    @apply max-w-7xl mx-auto;
-    transform: translateX(1.7rem)
+
+    @include max-width(sm) {
+        min-width: 20rem;
+        max-width: 30rem;
+        @apply mx-auto;
+    }
+    @include min-width(sm) {
+        transform: translateX(1.7rem);
+        min-width: 20rem;
+        max-width: 30rem;
+        @apply mx-auto;
+
+    }
+    @include min-width(md) {
+        transform: translateX(1.7rem);
+        min-width: 20rem;
+        max-width: 40rem;
+        @apply mx-auto;
+    }
+    @include min-width(lg) {
+        transform: translateX(1.7rem);
+        @apply max-w-7xl mx-auto;
+    }
+
+
 }
+
+.crud-element-sm-none {
+    @include max-width(sm) {
+        display: none;
+    }
+}
+
+
 
 
