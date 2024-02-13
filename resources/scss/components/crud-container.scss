@@ -7,20 +7,32 @@
 .crud-table-container {
     @apply table-responsive;
 
-    .crud-table {
-        @apply min-w-full leading-normal;
-    }
+
 }
 
-.crud-test {
+.crud-table {
     @apply overflow-auto min-w-full max-w-7xl my-5 mx-auto bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg text-gray-900 dark:text-gray-100;
-    background-color: white;
-    color: black;
-    min-width: 80rem;
-    min-height: 25rem;
+    @include max-width(sm) {
+        max-width: 30rem;
+        min-height: 25rem;
+    }
+    @include min-width(sm) {
+        max-width: 30rem;
+        min-height: 25rem;
+    }
+    @include min-width(md) {
+        min-width: 40rem;
+        min-height: 25rem;
+    }
+    @include min-width(lg) {
+        min-width: 60rem;
+        min-height: 25rem;
+    }
+
+
 }
 .crud-table-header {
-    @apply flex justify-between border-b-2 border-b-gray-200 p-3;
+    @apply flex justify-between border-b-2 border-b-gray-700 p-3;
 }
 .crud-table-rows {
     @apply flex justify-between;

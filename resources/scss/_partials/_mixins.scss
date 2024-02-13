@@ -1,0 +1,22 @@
+@import 'variables';
+
+@mixin min-width($breakpoint) {
+    @if map-has-key($breakpoints, $breakpoint) {
+        @media (min-width: map-get($breakpoints, $breakpoint)) {
+            @content;
+        }
+    } @else {
+        @warn "Unknown breakpoint: #{$breakpoint}.";
+    }
+}
+
+@mixin max-width($breakpoint) {
+    @if map-has-key($breakpoints, $breakpoint) {
+        $max-width: map-get($breakpoints, $breakpoint) - 1px;
+        @media (max-width: $max-width) {
+            @content;
+        }
+    } @else {
+        @warn "Unknown breakpoint: #{$breakpoint}.";
+    }
+}

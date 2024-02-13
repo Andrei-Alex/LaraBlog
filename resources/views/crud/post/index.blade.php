@@ -65,7 +65,7 @@
         <x-slot name="table">
 
             <div class="crud-content">
-                <div class="crud-test">
+                <div class="crud-table">
                     <div class="crud-table-header">
                         <p class="crud-table-title">Title</p>
                         <p class="crud-table-title">Category</p>
@@ -129,7 +129,6 @@
                                 @endif
                                 ">
                                     <div class="flex">
-
                                         <x-crud-button
                                             :href="route('post.edit', $post)"
                                             text="Edit"
