@@ -146,7 +146,7 @@
                                             icon="fa fa-edit"
                                             type="edit"
                                             rounded="left"
-                                            class="py-4"
+                                            class="px-3 py-3 rounded-l"
                                             :disabled="$post->deleted_at !== null"
                                         />
                                         <div class="crud-element-sm-none">
@@ -154,8 +154,8 @@
                                                 :href="route('post.show', ['slug' => $post->slug, 'post' => $post])"
                                                 icon="fa fa-eye"
                                                 type="preview"
-                                                rounded="right"
-                                                class="p-2"
+                                                rounded="none"
+                                                class="px-3 py-3"
                                                 :disabled="$post->deleted_at !== null"
                                             />
                                         </div>
@@ -177,6 +177,7 @@
                                                         icon="fa fa-trash"
                                                         type="danger"
                                                         rounded="right"
+                                                        class="px-3 py-3 rounded-r"
                                                     />
                                                 @else
                                                     @method('PATCH')
@@ -184,6 +185,7 @@
                                                         icon="fa fa-trash-can-arrow-up"
                                                         type="restore"
                                                         rounded="right"
+                                                        class="px-3 py-3 rounded-r"
                                                     />
                                                 @endif
                                             </form>
