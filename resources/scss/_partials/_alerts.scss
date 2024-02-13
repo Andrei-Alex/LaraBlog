@@ -1,7 +1,7 @@
 .alert-container {
     @apply py-12;
     > div:first-of-type {
-        @apply max-w-7xl mx-auto sm:px-6 lg:px-8;
+        @apply max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-7xl mx-auto
     }
 }
 .alert-hover {

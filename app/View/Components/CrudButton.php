@@ -15,7 +15,7 @@ class CrudButton extends Component
     /**
      * The URL the button links to.
      */
-    public string $href;
+    public string|null $href;
 
     /**
      * The text to display on the button.
@@ -63,7 +63,7 @@ class CrudButton extends Component
      * @param string|null $icon The icon class to use.
      */
     public function __construct(
-        string $href,
+        string|null $href = null,
         string|null $text = null,
         string $type = 'preview',
         string $rounded = 'true',
@@ -106,6 +106,7 @@ class CrudButton extends Component
             'danger' => 'bg-red-500 hover:bg-red-700 text-white',
             'warning' => 'bg-yellow-500 hover:bg-yellow-700 text-black',
             'info' => 'bg-cyan-500 hover:bg-cyan-700 text-white',
+            'restore' => 'bg-green-500 hover:bg-cyan-700 text-white',
             'default' => 'bg-gray-500 hover:bg-gray-700 text-white',
         ];
 

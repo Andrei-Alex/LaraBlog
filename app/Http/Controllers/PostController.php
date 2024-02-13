@@ -90,11 +90,14 @@ class PostController extends Controller
      * Display the specified post.
      *
      * @param Post $post The post model instance.
-     * @return View The view displaying the specified post.
+     * @return RedirectResponse|View The view displaying the specified post.
      */
-    public function show(Post $post): View
+    public function show(string $slug, Post $post): RedirectResponse|view
     {
-        return view('crud/post/show', compact('post'));
+        if ($post->slug !== $slug) {
+            return to_route('post.show', ['slug' => $post->slug, 'id' => $post->id]);
+        }
+        return view('crud/post/show', ['post' => $post]);
     }
 
     /**
