@@ -33,23 +33,47 @@
 
         <x-slot name="search">
             <form action="{{ route('post.index') }}" method="GET">
-                <div class="flex">
+                <div class="flex align-center">
                     <input type="text"
                            name="search"
                            placeholder="Search by title"
                            value="{{ $filters['search'] ?? '' }}"
-                           class="mt-1 block  rounded-l-md border-gray-300 shadow-sm
+                           class="block py-2 rounded-l-md border-gray-300 shadow-sm
                        focus:border-indigo-300focus:ringfocus:ring-indigo-200 focus:ring-opacity-50
                        dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500"
                     >
                     <button
                         type="submit"
-                        class="mt-1 px-2 rounded-r-md border-gray-300 shadow-sm
+                        class="px-2 py-2 rounded-r-md border-gray-300 shadow-sm
                                focus:border-indigo-300focus:ringfocus:ring-indigo-200 focus:ring-opacity-50
                                dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500"
                     >
                         Search
                     </button>
+
+                        <x-crud-button
+                            :href="route('post.index', array_merge(request()->all(),['user_id' => auth()->id()]))"
+                            type="default"
+                            text="My Posts"
+                            icon="fas fa-user"
+                            class="px-3 py-2 mx-2"
+                        />
+                        <x-crud-button
+                            :href="route('post.index', array_merge(request()->all(), ['order_by' => 'created_at', 'direction' => 'asc']))"
+                            type="default"
+                            text="Asc"
+                            icon="fas fa-caret-up"
+                            class="px-3 py-2 mr-2"
+                        />
+                        <x-crud-button
+                            :href="route('post.index', array_merge(request()->all(), ['order_by' => 'created_at', 'direction' => 'desc']))"
+                            type="default"
+                            text="Desc"
+                            icon="fas fa-caret-down"
+                            class="px-3 py-2 mr-2"
+                        />
+
+
                 </div>
                 @if (!empty($filters['user_id']))
                     <input type="hidden" name="user_id" value="{{ $filters['user_id'] }}">
@@ -86,7 +110,7 @@
                                     {{$post->title}}
                                 </div>
 
-                                <div class="px-5 py-5 text-sm crud-element text-left crud-text-content crud-element-sm-none
+                                <div class="px-5 py-5 text-sm text-left crud-text-content crud-element-sm-none
                                 @if ($post->deleted_at)
                                     text-gray-500
                                     @else
@@ -145,8 +169,8 @@
                                             :href="route('post.edit', $post)"
                                             icon="fa fa-edit"
                                             type="edit"
-                                            rounded="left"
-                                            class="px-3 py-3 rounded-l"
+                                            rounded="none"
+                                            class="px-3 py-3 crud-left-button-rows "
                                             :disabled="$post->deleted_at !== null"
                                         />
                                         <div class="crud-element-sm-none">
@@ -191,7 +215,6 @@
                                             </form>
                                         @endcan
                                     </div>
-
                                 </div>
                             </div>
                         @endforeach

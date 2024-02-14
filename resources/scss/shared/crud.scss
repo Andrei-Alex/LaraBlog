@@ -1,5 +1,7 @@
-.crud-table-title {
-    @apply px-5 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-400 uppercase tracking-wider;
-    width: 300px;
-
+.crud-left-button-rows {
+    @apply rounded;
+    @include min-width(sm) {
+        @apply rounded-none rounded-l;
+    }
 }
+
