@@ -86,7 +86,7 @@
                                     {{$post->title}}
                                 </div>
 
-                                <div class="px-5 py-5 text-sm crud-element text-left crud-text-content crud-element-sm-none
+                                <div class="px-5 py-5 text-sm text-left crud-text-content crud-element-sm-none
                                 @if ($post->deleted_at)
                                     text-gray-500
                                     @else
