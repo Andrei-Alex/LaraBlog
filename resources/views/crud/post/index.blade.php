@@ -145,8 +145,8 @@
                                             :href="route('post.edit', $post)"
                                             icon="fa fa-edit"
                                             type="edit"
-                                            rounded="left"
-                                            class="px-3 py-3 rounded-l"
+                                            rounded="none"
+                                            class="px-3 py-3 crud-left-button-rows "
                                             :disabled="$post->deleted_at !== null"
                                         />
                                         <div class="crud-element-sm-none">
@@ -191,7 +191,6 @@
                                             </form>
                                         @endcan
                                     </div>
-
                                 </div>
                             </div>
                         @endforeach

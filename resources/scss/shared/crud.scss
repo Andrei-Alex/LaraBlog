@@ -1,0 +1,7 @@
+.crud-left-button-rows {
+    @apply rounded;
+    @include min-width(sm) {
+        @apply rounded-none rounded-l;
+    }
+}
+
