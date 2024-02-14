@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center space-x-4">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <div class="breadcrumbs-container">
+            <h2>
                 {{ Breadcrumbs::render('post.index') }}
             </h2>
         </div>
@@ -9,21 +9,16 @@
 
     <x-session-message/>
 
-
     <x-crud-container>
         <x-slot name="search">
             <form action="{{ route('post.index') }}" method="GET">
-                <div class="flex align-center overflow-hidden">
+                <div class="search-form-inner-container">
                     <input type="text"
                            name="search"
                            placeholder="Search by title"
                            value="{{ $filters['search'] ?? '' }}"
-                           class="block py-2 rounded-l-md border-gray-300 shadow-sm
-                       focus:border-indigo-300focus:ringfocus:ring-indigo-200 focus:ring-opacity-50
-                       dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500"
-                    >
-                    <select name="order_by"
-                            class="border-gray-300 w-30 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500">
+                    />
+                    <select name="order_by">
                         <option value="created_at">Sort By</option>
                         <option
                             value="created_at" {{ request()->order_by == 'created_at' && request()->direction == 'asc' ? 'selected' : '' }}>
@@ -34,12 +29,7 @@
                             Date Desc
                         </option>
                     </select>
-                    <button
-                        type="submit"
-                        class="px-2 py-2 rounded-r-md border-gray-300 shadow-sm
-                               focus:border-indigo-300focus:ringfocus:ring-indigo-200 focus:ring-opacity-50
-                               dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500"
-                    >
+                    <button type="submit">
                         Search
                     </button>
 
@@ -47,28 +37,26 @@
                         :href="route('post.index', array_merge(request()->all(),['user_id' => auth()->id()]))"
                         icon="fa fa-user"
                         type="restore"
-                        class="ml-2 px-3 py-3 rounded-r"
+                        class="x-crud-button"
                     />
                     <x-crud-button
                         :href="route('post.create')"
                         type="add"
                         icon="fas fa-plus"
-                        class="ml-2 px-3 py-3 rounded-r"
+                        class="x-crud-button"
                     />
                     <x-crud-button
                         :href="route('post.create')"
                         type="info"
                         icon="fas fa-list"
-                        class="ml-2 px-3 py-3 rounded-r"
+                        class="x-crud-button"
                     />
                     <x-crud-button
                         :href="route('post.create')"
                         type="info"
                         icon="fas fa-tag"
-                        class="ml-2 px-3 py-3 rounded-r"
+                        class="x-crud-button"
                     />
-
-
                 </div>
                 @if (!empty($filters['user_id']))
                     <input type="hidden" name="user_id" value="{{ $filters['user_id'] }}">
@@ -82,7 +70,6 @@
             </form>
         </x-slot>
         <x-slot name="table">
-
             <div class="crud-content">
                 <div class="crud-table">
                     <div class="crud-table-header">
@@ -95,7 +82,7 @@
                     <div class="">
                         @foreach($posts as $post)
                             <div class="crud-table-rows">
-                                <div class="px-5 py-5 text-sm crud-element text-left
+                                <div class="crud-element
                                 @if ($post->deleted_at)
                                     text-gray-500
                                     @else
@@ -105,7 +92,7 @@
                                     {{$post->title}}
                                 </div>
 
-                                <div class="px-5 py-5 text-sm text-left crud-text-content crud-element-sm-none
+                                <div class="crud-element crud-text-content crud-element-sm-none
                                 @if ($post->deleted_at)
                                     text-gray-500
                                     @else
@@ -115,7 +102,7 @@
                                     {{Str::limit($post->content, 64, '...')}}
                                 </div>
 
-                                <div class="px-5 py-5 text-sm text-left crud-element
+                                <div class="crud-element
                                 @if ($post->deleted_at)
                                     text-gray-500
                                     @else
@@ -125,7 +112,7 @@
                                     {{Str::limit($post->category['name'], 128, '...')}}
                                 </div>
 
-                                <div class="px-5 crud-element py-5 text-sm
+                                <div class="crud-element
                                 @if ($post->deleted_at)
                                     text-gray-500
                                     @else
