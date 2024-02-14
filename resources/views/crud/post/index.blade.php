@@ -42,6 +42,12 @@
                        focus:border-indigo-300focus:ringfocus:ring-indigo-200 focus:ring-opacity-50
                        dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500"
                     >
+                    <select name="order_by"
+                            class="border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500">
+                        <option value="created_at">Sort By</option>
+                        <option value="created_at" {{ request()->order_by == 'created_at' && request()->direction == 'asc' ? 'selected' : '' }}>Date Ascending</option>
+                        <option value="created_at" {{ request()->order_by == 'created_at' && request()->direction == 'desc' ? 'selected' : '' }}>Date Descending</option>
+                    </select>
                     <button
                         type="submit"
                         class="px-2 py-2 rounded-r-md border-gray-300 shadow-sm
@@ -53,25 +59,11 @@
 
                         <x-crud-button
                             :href="route('post.index', array_merge(request()->all(),['user_id' => auth()->id()]))"
-                            type="default"
-                            text="My Posts"
-                            icon="fas fa-user"
-                            class="px-3 py-2 mx-2"
+                            icon="fa fa-user"
+                            type="restore"
+                            class="mx-2 px-3 py-3 rounded-r"
                         />
-                        <x-crud-button
-                            :href="route('post.index', array_merge(request()->all(), ['order_by' => 'created_at', 'direction' => 'asc']))"
-                            type="default"
-                            text="Asc"
-                            icon="fas fa-caret-up"
-                            class="px-3 py-2 mr-2"
-                        />
-                        <x-crud-button
-                            :href="route('post.index', array_merge(request()->all(), ['order_by' => 'created_at', 'direction' => 'desc']))"
-                            type="default"
-                            text="Desc"
-                            icon="fas fa-caret-down"
-                            class="px-3 py-2 mr-2"
-                        />
+
 
 
                 </div>
