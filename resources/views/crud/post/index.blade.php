@@ -11,29 +11,9 @@
 
 
     <x-crud-container>
-        <x-slot name="buttons">
-            <x-crud-button
-                :href="route('post.create')"
-                type="add"
-                icon="fas fa-plus"
-            />
-            <x-crud-button
-                :href="route('post.create')"
-                type="info"
-                icon="fas fa-list"
-            />
-            <x-crud-button
-                :href="route('post.create')"
-                type="info"
-                icon="fas fa-tag"
-            />
-
-        </x-slot>
-
-
         <x-slot name="search">
             <form action="{{ route('post.index') }}" method="GET">
-                <div class="flex align-center">
+                <div class="flex align-center overflow-hidden">
                     <input type="text"
                            name="search"
                            placeholder="Search by title"
@@ -43,10 +23,16 @@
                        dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500"
                     >
                     <select name="order_by"
-                            class="border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500">
+                            class="border-gray-300 w-30 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500">
                         <option value="created_at">Sort By</option>
-                        <option value="created_at" {{ request()->order_by == 'created_at' && request()->direction == 'asc' ? 'selected' : '' }}>Date Ascending</option>
-                        <option value="created_at" {{ request()->order_by == 'created_at' && request()->direction == 'desc' ? 'selected' : '' }}>Date Descending</option>
+                        <option
+                            value="created_at" {{ request()->order_by == 'created_at' && request()->direction == 'asc' ? 'selected' : '' }}>
+                            Date Asc
+                        </option>
+                        <option
+                            value="created_at" {{ request()->order_by == 'created_at' && request()->direction == 'desc' ? 'selected' : '' }}>
+                            Date Desc
+                        </option>
                     </select>
                     <button
                         type="submit"
@@ -57,13 +43,30 @@
                         Search
                     </button>
 
-                        <x-crud-button
-                            :href="route('post.index', array_merge(request()->all(),['user_id' => auth()->id()]))"
-                            icon="fa fa-user"
-                            type="restore"
-                            class="mx-2 px-3 py-3 rounded-r"
-                        />
-
+                    <x-crud-button
+                        :href="route('post.index', array_merge(request()->all(),['user_id' => auth()->id()]))"
+                        icon="fa fa-user"
+                        type="restore"
+                        class="ml-2 px-3 py-3 rounded-r"
+                    />
+                    <x-crud-button
+                        :href="route('post.create')"
+                        type="add"
+                        icon="fas fa-plus"
+                        class="ml-2 px-3 py-3 rounded-r"
+                    />
+                    <x-crud-button
+                        :href="route('post.create')"
+                        type="info"
+                        icon="fas fa-list"
+                        class="ml-2 px-3 py-3 rounded-r"
+                    />
+                    <x-crud-button
+                        :href="route('post.create')"
+                        type="info"
+                        icon="fas fa-tag"
+                        class="ml-2 px-3 py-3 rounded-r"
+                    />
 
 
                 </div>
