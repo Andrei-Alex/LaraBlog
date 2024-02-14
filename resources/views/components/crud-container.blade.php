@@ -7,9 +7,6 @@
     <div class="flex flex-row justify-center">
         <div class="crud-sidebar">
             <div>
-                {{ $buttons }}
-            </div>
-            <div>
                 <x-crud-button
                     :href="url()->previous()"
                     type="default"
