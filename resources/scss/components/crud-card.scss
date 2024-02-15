@@ -1,5 +1,5 @@
 .crud-card-container {
-    @apply max-w-7xl mx-auto sm:px-6 lg:px-8 py-6;
+    @include crud-shared-width;
     > div:first-of-type {
         @apply block p-6 bg-white border border-gray-200 rounded-lg shadow-lg;
         @apply dark:bg-gray-800 dark:border-gray-700;

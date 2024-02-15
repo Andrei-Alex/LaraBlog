@@ -1,14 +1,9 @@
 .crud-table {
-    @apply overflow-auto max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-7xl my-5 mx-auto bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg text-gray-900 dark:text-gray-100;
-}
-.crud-search {
-    @apply overflow-auto mb-5 max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-7xl mx-auto
-}
-.crud-pagination {
-    @apply overflow-auto my-5 max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-7xl mx-auto
+    @include crud-shared-width;
+    @apply my-5 bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg text-gray-900 dark:text-gray-100;
 }
 
-
-
-
-
+.crud-search, .crud-pagination {
+    @include crud-shared-width;
+    @apply mb-5;
+}

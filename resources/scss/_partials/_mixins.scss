@@ -20,3 +20,7 @@
         @warn "Unknown breakpoint: #{$breakpoint}.";
     }
 }
+
+@mixin crud-shared-width {
+    @apply overflow-auto max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-7xl mx-auto;
+}

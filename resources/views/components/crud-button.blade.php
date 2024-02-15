@@ -1,4 +1,3 @@
-
 @if($href)
     <a href="{{ $href }}"
        {{ $attributes->merge(['class' => "inline-block font-medium py-2 px-2 transition ease-in-out duration-150  flex flex-row justify-center $buttonClass $roundedClass " . ($disabled ? 'bg-gray-500 hover:bg-gray-500 cursor-not-allowed' : 'hover:scale-105')]) }}
