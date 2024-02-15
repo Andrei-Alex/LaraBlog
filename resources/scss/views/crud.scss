@@ -24,6 +24,9 @@
         focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
         dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500;
     }
+    .x-crud-button-base {
+        @apply ml-2 px-3 py-3;
+    }
     .x-crud-button {
         @apply ml-2 px-3 py-3 rounded-r;
     }
