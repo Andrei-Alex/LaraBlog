@@ -48,6 +48,25 @@
 
 .table-container {
     @apply flex flex-row justify-center;
+    .crud-table-rows {
+        @apply flex justify-between;
+    }
+    .crud-tag-container {
+        @apply flex flex-col;
+    }
+    .crud-tag-published {
+        @apply bg-green-500 dark:bg-green-300;
+    }
+    .crud-tag-deleted {
+        @apply bg-red-500 dark:bg-red-300;
+    }
+    .crud-tag-draft {
+        @apply bg-yellow-500 dark:bg-yellow-300;
+    }
+    .crud-row-button {
+        @apply px-3 py-3;
+    }
+
 }
 .crud-table-header {
     @apply flex justify-between border-b-2 border-b-gray-700 p-3;
@@ -56,7 +75,5 @@
         width: 300px;
     }
 }
-.crud-table-rows {
-    @apply flex justify-between;
-}
+
 
