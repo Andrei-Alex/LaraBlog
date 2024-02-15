@@ -168,7 +168,15 @@ class PostController extends Controller
     public function publish(Post $post): RedirectResponse
     {
         $post->update(['draft' => false]);
-        $post->user->notify(new PostPublished($post));
+        try {
+            $post->user->notify(new PostPublished($post));
+        } catch (\Exception $e) {
+            \Log::error('Failed to send post published notification.', [
+                'post_id' => $post->id,
+                'error' => $e->getMessage(),
+            ]);
+            return to_route('post.index')->with('error', 'Post published without notification.');
+        }
         return to_route('post.index')->with('success', 'Post published successfully.');
     }
 }
