@@ -13,11 +13,13 @@
         <x-slot name="search">
             <form action="{{ route('post.index') }}" method="GET">
                 <div class="search-form-inner-container">
+
                     <input type="text"
                            name="search"
                            placeholder="Search by title"
                            value="{{ $filters['search'] ?? '' }}"
                     />
+
                     <select name="order_by">
                         <option value="created_at">Sort By</option>
                         <option
@@ -29,6 +31,7 @@
                             Date Desc
                         </option>
                     </select>
+
                     <button type="submit">
                         Search
                     </button>
@@ -57,6 +60,7 @@
                         icon="fas fa-tag"
                         class="x-crud-button"
                     />
+
                 </div>
                 @if (!empty($filters['user_id']))
                     <input type="hidden" name="user_id" value="{{ $filters['user_id'] }}">
@@ -119,18 +123,18 @@
                                     text-gray-300
                                 @endif
                                 ">
-                                    <div class="flex flex-col">
+                                    <div class="crud-tag-container">
                                         <div>
                                             @if(!$post->draft && !$post->deleted_at)
-                                                <x-tag class="bg-green-500 dark:bg-green-300">
+                                                <x-tag class="crud-tag-published">
                                                     Published
                                                 </x-tag>
                                             @elseif($post->draft && !$post->deleted_at)
-                                                <x-tag class="bg-yellow-500 dark:bg-yellow-300">
+                                                <x-tag class="crud-tag-draft">
                                                     Draft
                                                 </x-tag>
                                             @else
-                                                <x-tag class="bg-red-500 dark:bg-red-300">
+                                                <x-tag class="crud-tag-deleted">
                                                     Deleted
                                                 </x-tag>
                                             @endif
@@ -138,21 +142,14 @@
                                     </div>
                                 </div>
 
-                                <div class="px-5 py-5 text-sm text-left crud-actions
-                                @if ($post->deleted_at)
-                                    text-gray-500
-                                    @else
-                                    text-gray-300
-                                @endif
-                                ">
+                                <div class="crud-element crud-actions">
                                     <div class="flex">
-
                                         <x-crud-button
                                             :href="route('post.edit', $post)"
                                             icon="fa fa-edit"
                                             type="edit"
                                             rounded="none"
-                                            class="px-3 py-3 crud-left-button-rows "
+                                            class="crud-row-button crud-left-button-rows "
                                             :disabled="$post->deleted_at !== null"
                                         />
                                         <div class="crud-element-sm-none">
@@ -161,7 +158,7 @@
                                                 icon="fa fa-eye"
                                                 type="preview"
                                                 rounded="none"
-                                                class="px-3 py-3"
+                                                class="crud-row-button"
                                                 :disabled="$post->deleted_at !== null"
                                             />
                                         </div>
@@ -183,7 +180,7 @@
                                                         icon="fa fa-trash"
                                                         type="danger"
                                                         rounded="right"
-                                                        class="px-3 py-3 rounded-r"
+                                                        class="crud-row-button rounded-r"
                                                     />
                                                 @else
                                                     @method('PATCH')
@@ -191,7 +188,7 @@
                                                         icon="fa fa-trash-can-arrow-up"
                                                         type="restore"
                                                         rounded="right"
-                                                        class="px-3 py-3 rounded-r"
+                                                        class="crud-row-button rounded-r"
                                                     />
                                                 @endif
                                             </form>
@@ -205,11 +202,9 @@
             </div>
         </x-slot>
 
-
         <x-slot name="pagination">
             {{ $posts->links('pagination::tailwind') }}
         </x-slot>
     </x-crud-container>
-
 
 </x-app-layout>
