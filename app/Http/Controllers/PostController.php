@@ -130,8 +130,8 @@ class PostController extends Controller
         if ($request->has('tags')) {
             $post->tags()->sync($request->tags);
         }
+        return to_route('post.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post updated successfully.');
 
-        return to_route('post.show', [$post->slug])->with('success', 'Post updated successfully.');
     }
 
     /**

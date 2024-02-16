@@ -5,7 +5,6 @@
 @import "_partials/_alerts";
 @import "_partials/_helpers";
 
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -22,4 +21,6 @@
 @import "shared/crud";
 
 @import "views/crud";
-
+@import "views/crud-index";
+@import "views/crud-show";
+@import "views/crud-form";

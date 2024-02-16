@@ -1,0 +1,31 @@
+.crud-button-base {
+    @apply px-3 py-3 flex items-center;
+}
+.crud-show-poster {
+    @apply rounded-md mb-4 w-full object-cover h-48;
+}
+.crud-show-title {
+    @apply text-2xl font-bold text-gray-800 dark:text-gray-300 mb-3;
+}
+.crud-show-cateogry {
+    @apply text-indigo-600 dark:text-indigo-400 mb-3;
+}
+.crud-show-tag-container {
+    @apply mb-3;
+    > span:first-of-type {
+        @apply text-gray-700 dark:text-gray-300;
+    }
+    span:not(:first-of-type) {
+        @apply inline-block bg-gray-200 dark:bg-gray-700 rounded-full font-semibold;
+        @apply text-gray-700 dark:text-gray-300 mr-2 mb-2 px-3 py-1 text-sm;
+    }
+}
+.crud-show-slug-container {
+    @apply mb-3 text-sm text-gray-600 dark:text-gray-400;
+    span {
+        @apply font-semibold;
+    }
+}
+.crud-show-content {
+    @apply text-gray-700 dark:text-gray-300 text-sm;
+}

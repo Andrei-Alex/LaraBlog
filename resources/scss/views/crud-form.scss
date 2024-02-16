@@ -1,0 +1,8 @@
+.crud-form-container {
+    @include crud-shared-width;
+}
+
+.crud-form-top-buttons-container {
+    @extend .crud-top-buttons-container;
+    @apply flex;
+}
