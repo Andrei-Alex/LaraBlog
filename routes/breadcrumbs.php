@@ -9,6 +9,12 @@ Breadcrumbs::for('dashboard', function ($trail) {
     $trail->push('Dashboard', route('dashboard'));
 });
 
+// Article
+Breadcrumbs::for('article.index', function ($trail) {
+    $trail->parent('dashboard');
+    $trail->push('Article', route('article.index'));
+});
+
 // Home > Posts
 Breadcrumbs::for('post.index', function ($trail) {
     $trail->parent('dashboard');
