@@ -101,7 +101,8 @@ class CrudButton extends Component
     private function getButtonClass(): string
     {
         $buttonStyles = [
-            'preview' => 'bg-blue-500 hover:bg-blue-700 text-white',
+            'preview' => 'bg-cyan-500 hover:bg-blue-700 text-white',
+            'add' => 'bg-green-500 hover:bg-green-700 text-white',
             'edit' => 'bg-cyan-500 hover:bg-blue-700 text-white',
             'danger' => 'bg-red-500 hover:bg-red-700 text-white',
             'warning' => 'bg-yellow-500 hover:bg-yellow-700 text-black',
