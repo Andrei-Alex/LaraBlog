@@ -1,5 +1,15 @@
 @import 'variables';
 
+/// Applies styles for a minimum viewport width.
+/// This mixin uses predefined breakpoints from a `$breakpoints` map.
+///
+/// @access public
+/// @param {String} $breakpoint - The breakpoint key from the `$breakpoints` map.
+/// @content - The styles to be applied at or above the specified breakpoint.
+/// @example scss - Usage
+///   @include min-width('md') {
+///
+///   }
 @mixin min-width($breakpoint) {
     @if map-has-key($breakpoints, $breakpoint) {
         @media (min-width: map-get($breakpoints, $breakpoint)) {
@@ -10,6 +20,16 @@
     }
 }
 
+/// Applies styles for a maximum viewport width.
+/// This mixin uses predefined breakpoints from a `$breakpoints` map, adjusting for max-width media queries.
+///
+/// @access public
+/// @param {String} $breakpoint - The breakpoint key from the `$breakpoints` map.
+/// @content - The styles to be applied below the specified breakpoint.
+/// @example scss - Usage
+///   @include max-width('lg') {
+///
+///   }
 @mixin max-width($breakpoint) {
     @if map-has-key($breakpoints, $breakpoint) {
         $max-width: map-get($breakpoints, $breakpoint) - 1px;
@@ -20,7 +40,15 @@
         @warn "Unknown breakpoint: #{$breakpoint}.";
     }
 }
-
+/// Applies a shared width and overflow behavior for CRUD components.
+/// Utilizes Tailwind CSS utility classes for responsive max-widths and overflow handling.
+///
+/// @access public
+/// @example scss - Usage
+///   .some-class {
+///     @include crud-shared-width;
+///
+///   }
 @mixin crud-shared-width {
     @apply overflow-auto max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-7xl mx-auto;
 }
