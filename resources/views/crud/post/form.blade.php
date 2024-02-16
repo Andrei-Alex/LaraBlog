@@ -1,5 +1,5 @@
 <div class="crud-form-container">
-    <div class="crud-top-buttons-container">
+    <div class="crud-form-top-buttons-container">
         <form action="{{route($post->exists ? 'post.update' : 'post.store', $post)}}"
               method="post"
               enctype="multipart/form-data">
@@ -10,29 +10,33 @@
                     text="Save"
                     type="edit"
                     icon="fas fa-edit"
-                    rounded="true"
+                    rounded="left"
                     class="crud-button-base"
                 />
             @else
                 <x-crud-button
                     text="Create"
                     type="add"
-                    icon="fas fa-paper-plane"
-                    rounded="true"
+                    icon="fas fa-add"
+                    rounded="left"
                     class="crud-button-base"
                 />
 
             @endif
-            @if($post->draft)
-                <form id="postForm" method="POST" action="{{ route('post.publish', $post) }}">
-                    @csrf
-                    @method('PATCH')
-                    <input type="hidden" name="publish" value="true">
-                    <button type="submit"
-                            class="mb-5 text-white bg-blue-500 hover:bg-blue-700 font-medium py-2 px-4 text-sm rounded transition ease-in-out duration-150">
-                        <i class="fa-regular fa-paper-plane"></i> Publish
-                    </button>
-                </form>
+        </form>
+        @if($post->draft)
+            <form id="postForm" method="POST" action="{{ route('post.publish', $post) }}">
+                @csrf
+                @method('PATCH')
+                <input type="hidden" name="publish" value="true">
+                <x-crud-button
+                    text="Publish"
+                    type="restore"
+                    icon="fas fa-paper-plane"
+                    rounded="right"
+                    class="crud-button-base"
+                />
+            </form>
         @endif
     </div>
     <div

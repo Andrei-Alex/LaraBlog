@@ -60,7 +60,6 @@
                         icon="fas fa-tag"
                         class="x-crud-button"
                     />
-
                 </div>
                 @if (!empty($filters['user_id']))
                     <input type="hidden" name="user_id" value="{{ $filters['user_id'] }}">
