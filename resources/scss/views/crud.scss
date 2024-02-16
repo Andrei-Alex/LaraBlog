@@ -5,3 +5,8 @@
     }
 }
 
+.crud-top-buttons-container {
+    @include crud-shared-width;
+    @apply overflow-hidden pb-4;
+}
+

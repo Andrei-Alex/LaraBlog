@@ -1,11 +1,6 @@
-.crud-show-buttons-container {
-    @include crud-shared-width;
-    @apply overflow-hidden pb-4;
-}
 .crud-button-base {
     @apply px-3 py-3 flex items-center;
 }
-
 .crud-show-poster {
     @apply rounded-md mb-4 w-full object-cover h-48;
 }

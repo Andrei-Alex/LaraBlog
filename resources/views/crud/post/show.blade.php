@@ -9,7 +9,7 @@
 
     <x-session-message/>
 
-    <div class="crud-show-buttons-container">
+    <div class="crud-top-buttons-container">
         <div class="flex">
             @if($post->draft)
                 <form method="POST" action="{{ route('post.publish', $post) }}">
