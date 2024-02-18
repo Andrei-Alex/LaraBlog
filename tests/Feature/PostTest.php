@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -62,6 +63,32 @@ class PostTest extends TestCase
         $this->assertSoftDeleted($post);
 
         $this->assertTrue(Post::withTrashed()->where('id', $post->id)->exists());
+    }
+    public function test_a_post_can_be_added(): void
+    {
+        $user = User::factory()->create();
+        $category = Category::factory()->create();
+        $tag = Tag::factory()->create();
+        $this->actingAs($user);
+
+        $postData = [
+            'title' => 'Test Post',
+            'content' => 'This is a test post.',
+            'category_id' => $category->id,
+            'tags' => [$tag->id],
+        ];
+
+        $this->post(route('post.store'), $postData);
+
+        $this->assertDatabaseHas('posts', [
+            'title' => 'Test Post',
+            'content' => 'This is a test post.',
+            'user_id' => $user->id,
+            'category_id' => $category->id,
+        ]);
+
+        $post = Post::where('title', 'Test Post')->first();
+        $this->assertTrue($post->tags->contains($tag->id));
     }
 
 }
