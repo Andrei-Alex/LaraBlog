@@ -181,37 +181,5 @@ class PostController extends Controller
         return to_route('post.index')->with('success', 'Post published successfully.');
     }
 
-    /**
-     * Test a post can be added.
-     *
-     * This test verifies that a post can be successfully created through the
-     * store method in the PostController and persists in the database.
-     */
-    public function test_a_post_can_be_added(): void
-    {
-        $user = User::factory()->create();
-        $category = Category::factory()->create();
-        $tag = Tag::factory()->create();
-        $this->actingAs($user);
 
-        $postData = [
-            'title' => 'Test Post',
-            'content' => 'This is a test post.',
-            'category_id' => $category->id,
-            'tags' => [$tag->id],
-        ];
-
-        $response = $this->post(route('post.store'), $postData);
-
-        $response->assertRedirect();
-        $this->assertDatabaseHas('posts', [
-            'title' => 'Test Post',
-            'content' => 'This is a test post.',
-            'user_id' => $user->id,
-            'category_id' => $category->id,
-        ]);
-
-        $post = Post::where('title', 'Test Post')->first();
-        $this->assertTrue($post->tags->contains($tag->id));
-    }
 }
