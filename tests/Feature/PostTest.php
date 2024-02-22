@@ -91,4 +91,40 @@ class PostTest extends TestCase
         $this->assertTrue($post->tags->contains($tag->id));
     }
 
+    public function test_a_post_can_be_edited(): void
+    {
+        $user = User::factory()->create();
+        $category = Category::factory()->create();
+        $tag = Tag::factory()->create();
+        $post = Post::factory()->create([
+            'user_id' => $user->id,
+            'category_id' => $category->id,
+        ]);
+        $post->tags()->attach($tag);
+
+        $this->actingAs($user);
+
+        $postData = [
+            'title' => 'Update Post',
+            'content' => 'This is an updated post.',
+            'category_id' => $category->id,
+            'tags' => [$tag->id],
+        ];
+
+        $this->patch(route('post.update', $post->id), $postData);
+        $this->assertDatabaseHas('posts', [
+            'id' => $post->id, // Ensure the post ID is checked
+            'title' => 'Update Post',
+            'content' => 'This is an updated post.',
+            'user_id' => $user->id,
+            'category_id' => $category->id,
+        ]);
+
+        $post = $post->fresh();
+
+        $this->assertEquals('Update Post', $post->title);
+        $this->assertEquals('This is an updated post.', $post->content);
+        $this->assertTrue($post->tags->contains($tag->id));
+    }
+
 }
