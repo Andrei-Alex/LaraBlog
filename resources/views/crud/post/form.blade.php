@@ -11,7 +11,7 @@
                     type="edit"
                     icon="fas fa-edit"
                     rounded="left"
-                    class="crud-button-base"
+                    class="crud-button-base {{ !$post->draft ? 'rounded-r' : '' }}"
                 />
             @else
                 <x-crud-button
@@ -49,9 +49,7 @@
                     placeholder="Post title"
                     value="{{ old('title', $post->title) }}"
                 />
-
             </div>
-
             <div class="w-3/12 ml-5">
                 <label for="image" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Image</label>
                 <input type="file" id="image" name="image"

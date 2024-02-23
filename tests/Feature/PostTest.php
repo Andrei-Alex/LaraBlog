@@ -113,7 +113,7 @@ class PostTest extends TestCase
 
         $this->patch(route('post.update', $post->id), $postData);
         $this->assertDatabaseHas('posts', [
-            'id' => $post->id, // Ensure the post ID is checked
+            'id' => $post->id,
             'title' => 'Update Post',
             'content' => 'This is an updated post.',
             'user_id' => $user->id,
