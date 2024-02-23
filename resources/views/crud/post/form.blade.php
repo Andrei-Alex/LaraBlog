@@ -39,9 +39,8 @@
             </form>
         @endif
     </div>
-    <div
-        class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-800">
-        <div class="mt-3 flex w-full">
+    <div class="crud-form-inner-container">
+        <div class="crud-form-full-element-container">
             <div class="w-9/12">
                 <x-crud-input
                     type="text"
@@ -59,12 +58,13 @@
                 @enderror
             </div>
         </div>
-        <div class="mt-3 flex w-full">
+        <div class="crud-form-full-element-container">
             <div class="w-8/12">
                 <label for="category"
                        class="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
-                <select id="category" name="category_id"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500">
+                <select id="category"
+                        name="category_id"
+                        class="crud-form-select">
                     <option value="">Select category</option>
                     @foreach($categories as $category)
                         <option
