@@ -50,12 +50,11 @@
                 />
             </div>
             <div class="w-3/12 ml-5">
-                <label for="image" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Image</label>
-                <input type="file" id="image" name="image"
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500">
-                @error('image')
-                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{$message}}</p>
-                @enderror
+                <x-crud-input
+                    type="file"
+                    name="image"
+                    title="Upload Image"
+                />
             </div>
         </div>
         <div class="crud-form-full-element-container">
@@ -97,19 +96,20 @@
         </div>
 
         <div class="mt-3">
-            <label for="slug" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Slug</label>
-            <input type="text" name="slug" placeholder="Post slug" value="{{ old('slug', $post->slug) }}"
-                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500">
-            @error('slug')
-            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{$message}}</p>
-            @enderror
+            <x-crud-input
+                type="text"
+                name="slug"
+                title="Slug"
+            />
         </div>
         <div class="mt-3">
-            <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Content</label>
+            <label for="content" class="crud-text-content-label">Content</label>
             <textarea name="content" style="display: none"
                       id="hiddenContent">{{ old('content', $post->content) }}</textarea>
 
-            <div id="quill-editor"></div>
+            <div id="quill-editor">
+
+            </div>
 
             @error('content')
             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{$message}}</p>
