@@ -82,7 +82,7 @@
             <div class="w-4/12 ml-5">
                 <label for="tag" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Tags</label>
                 <select id="tag" name="tags[]" multiple
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:focus:border-indigo-500">
+                        class="crud-text-select">
                     @foreach($tags as $tag)
                         <option value="{{$tag->id}}" @selected(in_array($tag->id, $tagsId))>
                             {{$tag->name}}
@@ -106,9 +106,7 @@
             <label for="content" class="crud-text-content-label">Content</label>
             <textarea name="content" style="display: none"
                       id="hiddenContent">{{ old('content', $post->content) }}</textarea>
-
             <div id="quill-editor">
-
             </div>
 
             @error('content')
