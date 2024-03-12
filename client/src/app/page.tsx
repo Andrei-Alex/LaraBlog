@@ -1,7 +1,3 @@
 export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      New Page
-    </main>
-  );
+  return <main className="bg-blue-500">New Page</main>;
 }
