@@ -2,10 +2,16 @@ import Image from 'next/image';
 
 import { LogoContainer, ILogo } from '.';
 
-function Logo({ src = '/logo.png', alt = 'Logo', width, height }: ILogo) {
+function Logo({
+  src = '/logo.png',
+  alt = 'Logo',
+  width,
+  height,
+  testID = 'logo',
+}: ILogo) {
   return (
-    <LogoContainer width={width} height={height}>
-      <Image src={src} alt={alt} layout="fill" objectFit="contain" />
+    <LogoContainer width={width} height={height} data-testid={testID}>
+      <Image src={src} alt={alt} layout="fill" />
     </LogoContainer>
   );
 }
