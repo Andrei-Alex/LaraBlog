@@ -1,12 +1,18 @@
-import axios from 'axios';
+import { AxiosError } from 'axios';
 
-const getHomeContent = async () => {
+import apiInstance from '@/services/config';
+import { ArticleResponse } from './types';
+
+const getHomeContent = async (): Promise<ArticleResponse> => {
   try {
-    const response = await axios.get('http://localhost:8000/api/home');
+    const response = await apiInstance.get('/home');
     return response.data;
   } catch (error) {
-    console.error('Error fetching data:', error);
-    return null;
+    if (error instanceof AxiosError) {
+      throw error;
+    } else {
+      throw new Error('An unexpected error occurred');
+    }
   }
 };
 
