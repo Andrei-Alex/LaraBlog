@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ICard } from '.';
 
-export default async function Card({ data }: ICard) {
+export default function Card({ data }: ICard) {
   return (
     <div>
       <h2>{data.title}</h2>
