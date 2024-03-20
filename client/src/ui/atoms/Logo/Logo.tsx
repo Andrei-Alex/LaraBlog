@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { LogoContainer, ILogo } from '.';
+import { ILogo, styles } from '.';
 
 /**
  *
@@ -33,9 +33,13 @@ function Logo({
   testID = 'logo',
 }: ILogo) {
   return (
-    <LogoContainer width={width} height={height} data-testid={testID}>
+    <div
+      className={styles.container}
+      style={{ width, height }}
+      data-testid={testID}
+    >
       <Image src={src} alt={alt} layout="fill" />
-    </LogoContainer>
+    </div>
   );
 }
 

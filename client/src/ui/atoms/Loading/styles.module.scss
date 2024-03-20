@@ -1,0 +1,16 @@
+@keyframes opacityChange {
+     100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.1;
+    }
+}
+
+.container {
+    @apply text-center my-10;
+    p {
+        @apply text-xl text-gray-500 font-semibold;
+        animation: opacityChange 2s infinite;
+    }
+}
