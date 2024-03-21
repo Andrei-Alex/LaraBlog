@@ -60,5 +60,13 @@
             },
             "typescript": {}
         }
-    }
+    },
+    "overrides": [
+        {
+            "files": ["cypress/**/*.ts", "cypress/**/*.tsx", "cypress/**/*.js"],
+            "parserOptions": {
+                "project": "./cypress/tsconfig.json"
+            }
+        }
+    ]
 }
