@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import Loading from './Loading';
 import { styles } from '.';
 
-describe('LoadingAnimation opacity changes', () => {
+describe('Loading', () => {
   it('renders correctly and matches snapshot', () => {
     const { asFragment } = render(<Loading />);
     expect(asFragment()).toMatchSnapshot();

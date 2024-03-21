@@ -10,6 +10,7 @@ export default async function Home() {
 
   return (
     <main>
+      <h1>test</h1>
       <Suspense fallback={<Loading />}>
         <Articles data={data} />
       </Suspense>
