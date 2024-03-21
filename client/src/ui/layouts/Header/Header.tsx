@@ -1,18 +1,17 @@
-import { Logo } from '@/ui';
-import Link from 'next/link';
+'use client';
+
+import { BurgerButton, Logo, NavList } from '@/ui';
+import { useWindowSize } from '@/ui/layouts/Header/hook';
+import { navItems } from '.';
 
 function Header() {
+  const isMobile = useWindowSize();
   return (
     <header>
       <Logo />
       <nav>
-        <ul>
-          <li>
-            <Link href="/blog" />
-            <Link href="/contact" />
-            <Link href="/about" />
-          </li>
-        </ul>
+        {isMobile && <BurgerButton />}
+        <NavList navElements={navItems} />
       </nav>
     </header>
   );
