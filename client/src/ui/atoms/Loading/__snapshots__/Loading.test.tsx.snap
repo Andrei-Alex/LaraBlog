@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LoadingAnimation opacity changes renders correctly and matches snapshot 1`] = `
+exports[`Loading renders correctly and matches snapshot 1`] = `
 <DocumentFragment>
   <div
     class="container"
