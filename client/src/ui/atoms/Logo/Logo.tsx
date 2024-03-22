@@ -26,15 +26,16 @@ import { ILogo, styles } from '.';
  */
 
 function Logo({
-  src = '/logo.png',
+  src = '/next.svg',
   alt = 'Logo',
-  width,
-  height,
+  width = '5rem',
+  height = '5rem',
   testID = 'logo',
+  style,
 }: ILogo) {
   return (
     <div
-      className={styles.container}
+      className={[styles.container, style].join(' ')}
       style={{ width, height }}
       data-testid={testID}
     >

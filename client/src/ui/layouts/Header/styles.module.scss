@@ -1,0 +1,16 @@
+.container {
+    @apply flex items-center justify-between max-w-7xl mx-auto;
+    div:first-of-type {
+        @apply flex items-center;
+    }
+    a {
+        @apply text-black font-sans font-medium text-sm ml-5;
+    }
+    .settingAndSearch {
+        @apply flex justify-between w-14 mr-5;
+    }
+}
+.logo {
+    @apply mt-1;
+}
+

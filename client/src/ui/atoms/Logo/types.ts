@@ -4,4 +4,5 @@ export interface ILogo {
   height?: string;
   alt?: string;
   testID?: string;
+  style: string;
 }
