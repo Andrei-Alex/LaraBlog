@@ -11,9 +11,9 @@ export default async function Home() {
   return (
     <main>
       <Header />
-      {/*<Suspense fallback={<Loading />}>*/}
-      {/*  <Articles data={data} />*/}
-      {/*</Suspense>*/}
+      <Suspense fallback={<Loading />}>
+        <Articles data={data} />
+      </Suspense>
     </main>
   );
 }
