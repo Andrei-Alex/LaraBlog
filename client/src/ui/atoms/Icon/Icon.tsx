@@ -33,8 +33,7 @@ import { ICONS_MAP, IIcon } from '.';
  * @returns {JSX.Element} - The rendered icon component.
  *
  */
-
-function IconBase({
+export function IconBase({
   extraStyles,
   iconName,
   color = 'black',
@@ -56,5 +55,6 @@ function IconBase({
     </div>
   );
 }
+
 const Icon = React.memo(IconBase, isEqual);
 export default Icon;
