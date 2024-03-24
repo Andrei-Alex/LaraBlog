@@ -9,7 +9,8 @@
         "plugin:@typescript-eslint/recommended",
         "plugin:react/recommended",
         "plugin:jsx-a11y/recommended",
-        "prettier"
+        "prettier",
+        "plugin:storybook/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -32,9 +33,21 @@
         "react/require-default-props": "off",
         "@typescript-eslint/no-explicit-any": "error",
         "react/prop-types": "off",
-        "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "devDependencies": true
+            }
+        ],
         "@typescript-eslint/explicit-module-boundary-types": "off",
-        "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [
+                    ".tsx"
+                ]
+            }
+        ],
         "import/extensions": [
             "error",
             "ignorePackages",
@@ -56,14 +69,23 @@
     "settings": {
         "import/resolver": {
             "node": {
-                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+                "extensions": [
+                    ".js",
+                    ".jsx",
+                    ".ts",
+                    ".tsx"
+                ]
             },
             "typescript": {}
         }
     },
     "overrides": [
         {
-            "files": ["cypress/**/*.ts", "cypress/**/*.tsx", "cypress/**/*.js"],
+            "files": [
+                "cypress/**/*.ts",
+                "cypress/**/*.tsx",
+                "cypress/**/*.js"
+            ],
             "parserOptions": {
                 "project": "./cypress/tsconfig.json"
             }
