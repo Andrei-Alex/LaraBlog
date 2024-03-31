@@ -1,0 +1,13 @@
+.card {
+    @apply flex items-center justify-center mb-5 p-2 bg-gray-100 animate-pulse rounded;
+    .avatar {
+        @apply rounded-full bg-gray-300 mx-auto;
+    }
+    .content {
+        width: 100%;
+        @apply flex-grow space-y-3;
+        .line {
+            @apply mx-auto w-4/5 h-2.5 bg-gray-300 rounded;
+        }
+    }
+}
