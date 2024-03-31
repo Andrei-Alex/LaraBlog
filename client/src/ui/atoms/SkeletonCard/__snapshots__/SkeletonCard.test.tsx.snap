@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SkeletonCard renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="card"
+    data-testid="skeletonCard"
+    style="width: 200px; height: 135px; flex-direction: row;"
+  >
+    <div
+      class="avatar"
+      style="margin-bottom: 0px; min-width: 48px; min-height: 48px;"
+    />
+    <div
+      class="content"
+    >
+      <div
+        class="line"
+      />
+      <div
+        class="line"
+      />
+      <div
+        class="line"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
